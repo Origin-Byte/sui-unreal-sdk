@@ -22,6 +22,13 @@ public:
 
 	UKeshUE4FundamentalTypeWrapper( const class FObjectInitializer& ObjectInitializer );
 
+	// ToString
+	UFUNCTION(Category = "Kesh|UE4 Fundamental Types", BlueprintPure, DisplayName = "uint64 -> FString")
+	static FString ToString(FKeshUInt64 Value)
+	{
+		return Value.ToString();
+	}
+
 	/************/
 	/* Creators */
 	/************/

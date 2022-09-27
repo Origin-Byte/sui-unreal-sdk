@@ -19,6 +19,7 @@ struct KESHUE4FUNDAMENTALTYPEWRAPPERPLUGIN_API FKeshUInt64
 	FKeshUInt64() { this->Value = 0; }
 	FKeshUInt64( const uint64& Value ) { this->Value = Value; }
 
+	FString ToString() { return FString::Printf(TEXT("%llu"), Value); }
 };
 
 #pragma pack(pop)
