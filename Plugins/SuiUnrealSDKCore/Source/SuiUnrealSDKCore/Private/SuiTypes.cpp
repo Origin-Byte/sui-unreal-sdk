@@ -6,15 +6,19 @@
 #include "SuiUnrealSDKCore.h"
 #include "JsonObjectConverter.h"
 
-FKeshUInt64 RpcClient::GetTotalTransactionNumber()
+RpcClient::RpcClient(const FString& InEndpoint)
+	: Endpoint(InEndpoint)
+{
+}
+
+void RpcClient::GetTotalTransactionNumber(const FRpcSuccessDelegate& SuccessDelegate)
 {
 	TArray<FString> Params;
 	FJsonRpcRequest Request(TEXT("sui_getTotalTransactionNumber"), Params);
-	MakeRequest(Request, TEXT("https://gateway.devnet.sui.io:443"));
-	return FKeshUInt64(0);
+	SendRequest(Request, SuccessDelegate);
 }
 
-bool RpcClient::MakeRequest(FJsonRpcRequest Request, const FString& URL)
+void RpcClient::SendRequest(const FJsonRpcRequest& Request, const FRpcSuccessDelegate& SuccessDelegate, const FRpcErrorDelegate& ErrorDelegate)
 {
 	TSharedPtr<FJsonObject> JsontRequestObject = FJsonObjectConverter::UStructToJsonObject(Request);
 	FString OutputString;
@@ -27,45 +31,38 @@ bool RpcClient::MakeRequest(FJsonRpcRequest Request, const FString& URL)
 	HttpRequest->SetVerb("POST");
 
 	HttpRequest->SetHeader("Content-Type", "application/json");
-	HttpRequest->SetURL(URL);
+	HttpRequest->SetURL(Endpoint);
 	HttpRequest->SetContentAsString(OutputString);
 
-	HttpRequest->OnProcessRequestComplete().BindLambda([](FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful)
+	HttpRequest->OnProcessRequestComplete().BindLambda([SuccessDelegate, ErrorDelegate](FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful)
 		{
 			if (!bWasSuccessful || !Response.IsValid())
 			{
 				UE_LOG(LogSuiUnrealSDKCore, Error, TEXT("Request error"));
+				// TODO
+				// ErrorDelegate
 			}
 			else
 			{
 				TSharedPtr<FJsonObject> JsonObject;
 				FString ResponseString = Response->GetContentAsString();
-				UE_LOG(LogSuiUnrealSDKCore, Verbose, TEXT("%s"), *ResponseString);
+				UE_LOG(LogSuiUnrealSDKCore, Verbose, TEXT("ProcessRequestComplete. Response: %s"), *ResponseString);
+				
+				TSharedRef<TJsonReader<>> Reader = TJsonReaderFactory<>::Create(Response->GetContentAsString());
+				if (FJsonSerializer::Deserialize(Reader, JsonObject))
+				{
+					FJsonRpcValidResponse ValidResponse;
+					FJsonObjectConverter::JsonAttributesToUStruct(JsonObject->Values, FJsonRpcValidResponse::StaticStruct(), &ValidResponse, 0, 0);
+
+					SuccessDelegate.ExecuteIfBound(ValidResponse);
+				}
+				else
+				{
+					// TODO
+					//ErrorDelegate.ExecuteIfBound
+				}
 			}
 		});
 
 	HttpRequest->ProcessRequest();
-
-	return true;
-}
-
-void RpcClient::OnResponseReceived(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful)
-{
-	if (!bWasSuccessful || !Response.IsValid())
-	{
-		UE_LOG(LogSuiUnrealSDKCore, Error, TEXT("Request error"));
-	}
-	else
-	{
-		TSharedPtr<FJsonObject> JsonObject;
-		FString ResponseString = Response->GetContentAsString();
-		UE_LOG(LogSuiUnrealSDKCore, Verbose, TEXT("%s"), *ResponseString);
-
-		TSharedRef<TJsonReader<>> Reader = TJsonReaderFactory<>::Create(ResponseString);
-
-		if (FJsonSerializer::Deserialize(Reader, JsonObject))
-		{
-			
-		}
-	}
 }

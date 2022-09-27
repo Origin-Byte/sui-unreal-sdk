@@ -86,16 +86,94 @@ struct SUIUNREALSDKCORE_API FJsonRpcValidResponse : public FJsonRpcObjectBase
 	}
 };
 
+USTRUCT(BlueprintType)
+struct SUIUNREALSDKCORE_API FJsonRpcError
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Sui")
+	int32 Code;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Sui")
+	FString Message;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Sui")
+	FString Data;
+
+	FJsonRpcError(int32 InCode, const FString& InMessage, const FString& InData)
+	{
+		Code = InCode;
+		Message = InMessage;
+		Data = InData;
+	}
+
+	FJsonRpcError()
+	{
+		Code = 0;
+		Message = TEXT("");
+		Data = TEXT("");
+	}
+};
+
+USTRUCT(BlueprintType)
+struct SUIUNREALSDKCORE_API FJsonRpcErrorResponse : public FJsonRpcObjectBase
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Sui")
+	FJsonRpcError Error;
+
+	FJsonRpcErrorResponse(const FJsonRpcError& InError, int32 InId = 1)
+		: FJsonRpcObjectBase(InId)
+	{
+		Error = InError;
+	}
+
+	FJsonRpcErrorResponse()
+		: FJsonRpcObjectBase(1)
+	{
+		Error = FJsonRpcError();
+	}
+};
+
+USTRUCT(BlueprintType)
+struct SUIUNREALSDKCORE_API FRpcResult
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Sui")
+	bool IsSuccess;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Sui")
+	FString Data;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Sui")
+	FString RawRpcRequest;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Sui")
+	FString RawRpcResponse;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Sui")
+	FString ErrorMessage;
+};
+
+DECLARE_DELEGATE_OneParam(FRpcSuccessDelegate, const FJsonRpcValidResponse&);
+DECLARE_DELEGATE_OneParam(FRpcErrorDelegate, const FJsonRpcErrorResponse&);
+
+
+
 class SUIUNREALSDKCORE_API RpcClient
 {
 public:
-	FKeshUInt64 GetTotalTransactionNumber();
+	RpcClient(const FString& InEndpoint);
+
+	void GetTotalTransactionNumber(const FRpcSuccessDelegate& Delegate = FRpcSuccessDelegate());
+
+	FORCEINLINE const FString& GetEndpoint() const { return Endpoint; }
 
 private:
-	bool MakeRequest(FJsonRpcRequest Request, const FString& URL);
-	void OnResponseReceived(FHttpRequestPtr Request, FHttpResponsePtr Response, bool bWasSuccessful);
+	void SendRequest(const FJsonRpcRequest& Request, const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate(), const FRpcErrorDelegate& ErrorDelegate = FRpcErrorDelegate());
 
+	FString Endpoint;
 };
-
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FResponseReceivedDelegate, FString, Result);
 
