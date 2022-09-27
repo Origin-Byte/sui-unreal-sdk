@@ -1,6 +1,6 @@
 # sui-unreal-sdk
 
-Connecting Unity game developers to Sui and Origin Byte's NFT ecosystem.
+Connecting Unreal game developers to Sui and Origin Byte's NFT ecosystem.
 
 # Features
 - For Rpc clients’ direct interaction with the Sui JSON-RPC https://docs.sui.io/sui-jsonrpc
@@ -20,7 +20,7 @@ Check the Sample Level and the Blueprint Nodes in the Level Blueprint.
 	auto Client = RpcClient(Endpoint);
 	FRpcSuccessDelegate RpcSuccessDelegate;
 	RpcSuccessDelegate.BindLambda([OnResult](const FJsonRpcValidResponse& RpcResponse) {
-		OnResult.ExecuteIfBound(RpcResponse.Result);
-		});
+		UE_LOG(LogTemp, Log, TEXT("Response received."));
+	});
 	Client.GetObject(ObjectId, RpcSuccessDelegate);
 ```
