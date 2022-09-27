@@ -7,8 +7,8 @@
 #include "Interfaces/IHttpResponse.h"
 #include "Dom/JsonObject.h"
 #include "HttpRetrySystem.h"
+#include "KeshUE4FundamentalTypeWrapperPlugin/KeshUInt64.h"
 #include "SuiTypes.generated.h"
-
 
 USTRUCT(BlueprintType)
 struct SUIUNREALSDKCORE_API FSuiTypes
@@ -89,7 +89,7 @@ struct SUIUNREALSDKCORE_API FJsonRpcValidResponse : public FJsonRpcObjectBase
 class SUIUNREALSDKCORE_API RpcClient
 {
 public:
-	int GetTotalTransactionNumber();
+	FKeshUInt64 GetTotalTransactionNumber();
 
 private:
 	bool MakeRequest(FJsonRpcRequest Request, const FString& URL);

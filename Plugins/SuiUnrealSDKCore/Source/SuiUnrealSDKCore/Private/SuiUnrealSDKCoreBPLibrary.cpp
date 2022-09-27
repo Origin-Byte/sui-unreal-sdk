@@ -14,10 +14,10 @@ USuiUnrealSDKCoreBPLibrary::USuiUnrealSDKCoreBPLibrary(const FObjectInitializer&
 
 }
 
-int USuiUnrealSDKCoreBPLibrary::GetTotalTransactionNumber()
+FKeshUInt64 USuiUnrealSDKCoreBPLibrary::GetTotalTransactionNumber()
 {
 	auto Client = RpcClient();
 	Client.GetTotalTransactionNumber();
-	return 0;
+	return FKeshUInt64(0);
 }
 

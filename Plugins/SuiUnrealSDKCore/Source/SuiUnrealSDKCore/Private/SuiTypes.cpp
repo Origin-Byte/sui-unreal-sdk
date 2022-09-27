@@ -6,13 +6,12 @@
 #include "SuiUnrealSDKCore.h"
 #include "JsonObjectConverter.h"
 
-
-int RpcClient::GetTotalTransactionNumber()
+FKeshUInt64 RpcClient::GetTotalTransactionNumber()
 {
 	TArray<FString> Params;
 	FJsonRpcRequest Request(TEXT("sui_getTotalTransactionNumber"), Params);
 	MakeRequest(Request, TEXT("https://gateway.devnet.sui.io:443"));
-	return 0;
+	return FKeshUInt64(0);
 }
 
 bool RpcClient::MakeRequest(FJsonRpcRequest Request, const FString& URL)

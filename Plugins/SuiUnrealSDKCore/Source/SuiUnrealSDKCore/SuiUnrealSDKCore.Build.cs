@@ -9,7 +9,6 @@ public class SuiUnrealSDKCore : ModuleRules
 
 		PublicIncludePaths.AddRange(
 			new string[] {
-				// ... add public include paths required here ...
 			}
 			);
 
@@ -27,8 +26,9 @@ public class SuiUnrealSDKCore : ModuleRules
 				"Core",
 				"HTTP",
 				"Json",
-                "JsonUtilities"
-            }
+                "JsonUtilities",
+				"KeshUE4FundamentalTypeWrapperPlugin"
+			}
 			);
 
 
