@@ -27,7 +27,8 @@ public class SuiUnrealSDKCore : ModuleRules
 				"HTTP",
 				"Json",
                 "JsonUtilities",
-				"KeshUE4FundamentalTypeWrapperPlugin"
+				"KeshUE4FundamentalTypeWrapperPlugin",
+				"JsonBlueprintUtilities"
 			}
 			);
 

@@ -5,9 +5,10 @@
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "KeshUE4FundamentalTypeWrapperPlugin/KeshUInt64.h"
 #include "SuiTypes.h"
+#include "JsonBlueprintFunctionLibrary.h"
 #include "SuiUnrealSDKCoreBPLibrary.generated.h"
 
-DECLARE_DYNAMIC_DELEGATE_OneParam(FRpcResultReceivedDelegate, const FString&, Result);
+DECLARE_DYNAMIC_DELEGATE_OneParam(FRpcResultReceivedDelegate, const FJsonObjectWrapper&, Result);
 
 UCLASS()
 class USuiUnrealSDKCoreBPLibrary : public UBlueprintFunctionLibrary

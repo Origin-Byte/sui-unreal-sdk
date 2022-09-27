@@ -25,6 +25,10 @@
 		{
 			"Name": "KeshUE4FundamentalTypeWrapperPlugin",
 			"Enabled": true
+		},
+		{
+			"Name": "JsonBlueprintUtilities",
+			"Enabled": true
 		}
 	]
 }

@@ -102,7 +102,8 @@ void RpcClient::SendRequest(const FJsonRpcRequest& Request, const FRpcSuccessDel
 				if (FJsonSerializer::Deserialize(Reader, JsonObject))
 				{
 					FJsonRpcValidResponse ValidResponse;
-					FJsonObjectConverter::JsonAttributesToUStruct(JsonObject->Values, FJsonRpcValidResponse::StaticStruct(), &ValidResponse, 0, 0);
+					// TODO handle single value responses
+					FJsonObjectConverter::JsonObjectToUStruct(JsonObject.ToSharedRef(), FJsonRpcValidResponse::StaticStruct(), &ValidResponse, 0, 0);
 
 					SuccessDelegate.ExecuteIfBound(ValidResponse);
 				}

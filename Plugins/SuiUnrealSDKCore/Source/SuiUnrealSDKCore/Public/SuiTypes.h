@@ -8,6 +8,7 @@
 #include "Dom/JsonObject.h"
 #include "HttpRetrySystem.h"
 #include "KeshUE4FundamentalTypeWrapperPlugin/KeshUInt64.h"
+#include "JsonBlueprintFunctionLibrary.h"
 #include "SuiTypes.generated.h"
 
 USTRUCT(BlueprintType)
@@ -71,9 +72,9 @@ struct SUIUNREALSDKCORE_API FJsonRpcValidResponse : public FJsonRpcObjectBase
 	GENERATED_BODY()
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Sui")
-	FString Result;
+	FJsonObjectWrapper Result;
 
-	FJsonRpcValidResponse(const FString& InResult, int32 InId = 1)
+	FJsonRpcValidResponse(const FJsonObjectWrapper& InResult, int32 InId = 1)
 		: FJsonRpcObjectBase(InId)
 	{
 		Result = InResult;
@@ -82,7 +83,7 @@ struct SUIUNREALSDKCORE_API FJsonRpcValidResponse : public FJsonRpcObjectBase
 	FJsonRpcValidResponse()
 		: FJsonRpcObjectBase(1)
 	{	
-		Result = TEXT("");
+		Result = FJsonObjectWrapper();
 	}
 };
 
