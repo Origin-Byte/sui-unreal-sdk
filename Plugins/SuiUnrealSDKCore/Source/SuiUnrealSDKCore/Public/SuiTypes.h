@@ -166,10 +166,12 @@ class SUIUNREALSDKCORE_API RpcClient
 {
 public:
 	RpcClient(const FString& InEndpoint);
-
-	void GetTotalTransactionNumber(const FRpcSuccessDelegate& Delegate = FRpcSuccessDelegate());
-
 	FORCEINLINE const FString& GetEndpoint() const { return Endpoint; }
+
+	void GetTotalTransactionNumber(const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate());
+	void GetTransaction(const FString& Digest, const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate());
+	void GetTransactionsInRange(uint64 Start, uint64 End, const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate());
+	void GetObject(const FString& ObjectId, const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate());
 
 private:
 	void SendRequest(const FJsonRpcRequest& Request, const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate(), const FRpcErrorDelegate& ErrorDelegate = FRpcErrorDelegate());

@@ -18,6 +18,31 @@ void RpcClient::GetTotalTransactionNumber(const FRpcSuccessDelegate& SuccessDele
 	SendRequest(Request, SuccessDelegate);
 }
 
+void RpcClient::GetTransaction(const FString& Digest, const FRpcSuccessDelegate& SuccessDelegate)
+{
+	TArray<FString> Params;
+	Params.Add(Digest);
+	FJsonRpcRequest Request(TEXT("sui_getTransaction"), Params);
+	SendRequest(Request, SuccessDelegate);
+}
+
+void RpcClient::GetTransactionsInRange(uint64 Start, uint64 End, const FRpcSuccessDelegate& SuccessDelegate)
+{
+	TArray<FString> Params;
+	Params.Add(FString::Printf(TEXT("%llu"), Start));
+	Params.Add(FString::Printf(TEXT("%llu"), End));
+	FJsonRpcRequest Request(TEXT("sui_getTransactionsInRange"), Params);
+	SendRequest(Request, SuccessDelegate);
+}
+
+void RpcClient::GetObject(const FString& ObjectId, const FRpcSuccessDelegate& SuccessDelegate)
+{
+	TArray<FString> Params;
+	Params.Add(ObjectId);
+	FJsonRpcRequest Request(TEXT("sui_getObject"), Params);
+	SendRequest(Request, SuccessDelegate);
+}
+
 void RpcClient::SendRequest(const FJsonRpcRequest& Request, const FRpcSuccessDelegate& SuccessDelegate, const FRpcErrorDelegate& ErrorDelegate)
 {
 	TSharedPtr<FJsonObject> JsontRequestObject = FJsonObjectConverter::UStructToJsonObject(Request);
