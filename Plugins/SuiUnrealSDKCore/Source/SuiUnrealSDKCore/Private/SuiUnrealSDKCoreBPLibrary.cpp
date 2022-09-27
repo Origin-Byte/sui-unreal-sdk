@@ -7,6 +7,7 @@
 #include "HttpModule.h"
 #include "Serialization/JsonSerializer.h"
 #include "SuiTypes.h"
+#include "RpcClient.h"
 
 USuiUnrealSDKCoreBPLibrary::USuiUnrealSDKCoreBPLibrary(const FObjectInitializer& ObjectInitializer)
 : Super(ObjectInitializer)
