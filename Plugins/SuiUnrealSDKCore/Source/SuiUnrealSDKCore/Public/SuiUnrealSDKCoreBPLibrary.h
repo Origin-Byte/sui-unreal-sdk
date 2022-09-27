@@ -14,7 +14,25 @@ class USuiUnrealSDKCoreBPLibrary : public UBlueprintFunctionLibrary
 {
 	GENERATED_UCLASS_BODY()
 
-	UFUNCTION(BlueprintCallable, meta = (DisplayName = "Get Total Transaction Number", Keywords = "Sui"), Category = "Sui")
-	static void GetTotalTransactionNumber(const FRpcResultReceivedDelegate& OnResultDelegate);
+	UFUNCTION(BlueprintCallable, Category = "Sui")
+	static void GetTotalTransactionNumber(const FString& Endpoint, const FRpcResultReceivedDelegate& OnResult);
+
+	UFUNCTION(BlueprintCallable,Category = "Sui")
+	void GetRecentTransactions(const FString& Endpoint, FKeshUInt64 Count, const FRpcResultReceivedDelegate& OnResult);
+
+	UFUNCTION(BlueprintCallable, Category = "Sui")
+	void GetTransaction(const FString& Endpoint, const FString& Digest, const FRpcResultReceivedDelegate& OnResult);
+
+	UFUNCTION(BlueprintCallable, Category = "Sui")
+	void GetTransactionsInRange(const FString& Endpoint, FKeshUInt64 Start, FKeshUInt64 End, const FRpcResultReceivedDelegate& OnResult);
+
+	UFUNCTION(BlueprintCallable, Category = "Sui")
+	void GetObject(const FString& Endpoint, const FString& ObjectId, const FRpcResultReceivedDelegate& OnResult);
+
+	UFUNCTION(BlueprintCallable, Category = "Sui")
+	void GetObjectsOwnedByAddress(const FString& Endpoint, const FString& Address, const FRpcResultReceivedDelegate& OnResult);
+
+	UFUNCTION(BlueprintCallable, Category = "Sui")
+	void GetObjectsOwnedByObject(const FString& Endpoint, const FString& ObjectId, const FRpcResultReceivedDelegate& OnResult);
 };
 
