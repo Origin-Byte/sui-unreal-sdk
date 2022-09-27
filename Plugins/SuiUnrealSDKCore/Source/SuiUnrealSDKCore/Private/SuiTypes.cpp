@@ -11,6 +11,14 @@ RpcClient::RpcClient(const FString& InEndpoint)
 {
 }
 
+void RpcClient::GetRecentTransactions(uint64 Count, const FRpcSuccessDelegate& SuccessDelegate)
+{
+	TArray<FString> Params;
+	Params.Add(FString::Printf(TEXT("%llu"), Count));
+	FJsonRpcRequest Request(TEXT("sui_getRecentTransactions"), Params);
+	SendRequest(Request, SuccessDelegate);
+}
+
 void RpcClient::GetTotalTransactionNumber(const FRpcSuccessDelegate& SuccessDelegate)
 {
 	TArray<FString> Params;
@@ -42,6 +50,23 @@ void RpcClient::GetObject(const FString& ObjectId, const FRpcSuccessDelegate& Su
 	FJsonRpcRequest Request(TEXT("sui_getObject"), Params);
 	SendRequest(Request, SuccessDelegate);
 }
+
+void RpcClient::GetObjectsOwnedByAddress(const FString& Address, const FRpcSuccessDelegate& SuccessDelegate)
+{
+	TArray<FString> Params;
+	Params.Add(Address);
+	FJsonRpcRequest Request(TEXT("sui_getObjectsOwnedByAddress"), Params);
+	SendRequest(Request, SuccessDelegate);
+}
+
+void RpcClient::GetObjectsOwnedByObject(const FString& ObjectId, const FRpcSuccessDelegate& SuccessDelegate)
+{
+	TArray<FString> Params;
+	Params.Add(ObjectId);
+	FJsonRpcRequest Request(TEXT("sui_getObjectsOwnedByObject"), Params);
+	SendRequest(Request, SuccessDelegate);
+}
+
 
 void RpcClient::SendRequest(const FJsonRpcRequest& Request, const FRpcSuccessDelegate& SuccessDelegate, const FRpcErrorDelegate& ErrorDelegate)
 {
