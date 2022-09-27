@@ -49,10 +49,9 @@ struct SUIUNREALSDKCORE_API FJsonRpcRequest : public FJsonRpcObjectBase
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Sui")
 	FString Method;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Sui")
-	TArray<FString> Params;
+	TArray<TSharedPtr<FJsonValue>> Params;
 
-	FJsonRpcRequest(const FString& InMethod, const TArray<FString>& InParams, int32 InId = 1)
+	FJsonRpcRequest(const FString& InMethod, const TArray<TSharedPtr<FJsonValue>>& InParams, int32 InId = 1)
 		: FJsonRpcObjectBase(InId)
 	{
 		Method = InMethod;

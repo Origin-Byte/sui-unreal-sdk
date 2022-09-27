@@ -14,56 +14,56 @@ RpcClient::RpcClient(const FString& InEndpoint)
 
 void RpcClient::GetRecentTransactions(uint64 Count, const FRpcSuccessDelegate& SuccessDelegate)
 {
-	TArray<FString> Params;
-	Params.Add(FString::Printf(TEXT("%llu"), Count));
+	TArray<TSharedPtr<FJsonValue>> Params;
+	Params.Add(MakeShareable(new FJsonValueNumberString(FString::Printf(TEXT("%llu"), Count))));
 	FJsonRpcRequest Request(TEXT("sui_getRecentTransactions"), Params);
 	SendRequest(Request, SuccessDelegate);
 }
 
 void RpcClient::GetTotalTransactionNumber(const FRpcSuccessDelegate& SuccessDelegate)
 {
-	TArray<FString> Params;
+	TArray<TSharedPtr<FJsonValue>> Params;
 	FJsonRpcRequest Request(TEXT("sui_getTotalTransactionNumber"), Params);
 	SendRequest(Request, SuccessDelegate);
 }
 
 void RpcClient::GetTransaction(const FString& Digest, const FRpcSuccessDelegate& SuccessDelegate)
 {
-	TArray<FString> Params;
-	Params.Add(Digest);
+	TArray<TSharedPtr<FJsonValue>> Params;
+	Params.Add(MakeShareable(new FJsonValueString(Digest)));
 	FJsonRpcRequest Request(TEXT("sui_getTransaction"), Params);
 	SendRequest(Request, SuccessDelegate);
 }
 
 void RpcClient::GetTransactionsInRange(uint64 Start, uint64 End, const FRpcSuccessDelegate& SuccessDelegate)
 {
-	TArray<FString> Params;
-	Params.Add(FString::Printf(TEXT("%llu"), Start));
-	Params.Add(FString::Printf(TEXT("%llu"), End));
+	TArray<TSharedPtr<FJsonValue>> Params;
+	Params.Add(MakeShareable(new FJsonValueNumberString(FString::Printf(TEXT("%llu"), Start))));
+	Params.Add(MakeShareable(new FJsonValueNumberString(FString::Printf(TEXT("%llu"), End))));
 	FJsonRpcRequest Request(TEXT("sui_getTransactionsInRange"), Params);
 	SendRequest(Request, SuccessDelegate);
 }
 
 void RpcClient::GetObject(const FString& ObjectId, const FRpcSuccessDelegate& SuccessDelegate)
 {
-	TArray<FString> Params;
-	Params.Add(ObjectId);
+	TArray<TSharedPtr<FJsonValue>> Params;
+	Params.Add(MakeShareable(new FJsonValueString(ObjectId)));
 	FJsonRpcRequest Request(TEXT("sui_getObject"), Params);
 	SendRequest(Request, SuccessDelegate);
 }
 
 void RpcClient::GetObjectsOwnedByAddress(const FString& Address, const FRpcSuccessDelegate& SuccessDelegate)
 {
-	TArray<FString> Params;
-	Params.Add(Address);
+	TArray<TSharedPtr<FJsonValue>> Params;
+	Params.Add(MakeShareable(new FJsonValueString(Address)));
 	FJsonRpcRequest Request(TEXT("sui_getObjectsOwnedByAddress"), Params);
 	SendRequest(Request, SuccessDelegate);
 }
 
 void RpcClient::GetObjectsOwnedByObject(const FString& ObjectId, const FRpcSuccessDelegate& SuccessDelegate)
 {
-	TArray<FString> Params;
-	Params.Add(ObjectId);
+	TArray<TSharedPtr<FJsonValue>> Params;
+	Params.Add(MakeShareable(new FJsonValueString(ObjectId)));
 	FJsonRpcRequest Request(TEXT("sui_getObjectsOwnedByObject"), Params);
 	SendRequest(Request, SuccessDelegate);
 }
@@ -72,6 +72,7 @@ void RpcClient::GetObjectsOwnedByObject(const FString& ObjectId, const FRpcSucce
 void RpcClient::SendRequest(const FJsonRpcRequest& Request, const FRpcSuccessDelegate& SuccessDelegate, const FRpcErrorDelegate& ErrorDelegate)
 {
 	TSharedPtr<FJsonObject> JsontRequestObject = FJsonObjectConverter::UStructToJsonObject(Request);
+	JsontRequestObject->SetArrayField("params", Request.Params);
 	FString OutputString;
 	TSharedRef<TJsonWriter<>> JsonWriter = TJsonWriterFactory<>::Create(&OutputString);
 	FJsonSerializer::Serialize(JsontRequestObject.ToSharedRef(), JsonWriter);
