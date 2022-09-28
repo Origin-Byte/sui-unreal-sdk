@@ -7,7 +7,8 @@
 class LIBSODIUMUE_API FLibsodiumUEModule : public IModuleInterface
 {
 public:
-	int32 Ed25519KeyPairFromSeed(TArray<uint8>& PublicKey, TArray<uint8>& PrivateKey, const TArray<uint8>& Seed);
+	int32 Ed25519KeyPairFromSeed(TArray<uint8>& OutPublicKey, TArray<uint8>& OutPrivateKey, const TArray<uint8>& Seed);
+	int32 Sign(TArray<uint8>& OutSignature, const TArray<uint8>& Message, const TArray<uint8>& PrivateKey);
 	
 	/** IModuleInterface implementation */
 	virtual void StartupModule() override;

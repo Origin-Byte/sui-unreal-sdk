@@ -7,16 +7,23 @@
 
 #define LOCTEXT_NAMESPACE "FLibsodiumUEModule"
 
-int32 FLibsodiumUEModule::Ed25519KeyPairFromSeed(TArray<uint8>& PublicKey, TArray<uint8>& PrivateKey, const TArray<uint8>& Seed)
+int32 FLibsodiumUEModule::Ed25519KeyPairFromSeed(TArray<uint8>& OutPublicKey, TArray<uint8>& OutPrivateKey, const TArray<uint8>& Seed)
 {
-	PublicKey.SetNum(crypto_sign_ed25519_PUBLICKEYBYTES);
-	PrivateKey.SetNum(crypto_sign_ed25519_SECRETKEYBYTES);
+	OutPublicKey.SetNum(crypto_sign_ed25519_PUBLICKEYBYTES);
+	OutPrivateKey.SetNum(crypto_sign_ed25519_SECRETKEYBYTES);
 
 	// Don't modify original seed, but we only use 32 bytes
 	TArray<uint8> TmpSeed = Seed;
 	TmpSeed.SetNum(32);
 	
-	return crypto_sign_ed25519_seed_keypair(PublicKey.GetData(), PrivateKey.GetData(), TmpSeed.GetData());
+	return crypto_sign_ed25519_seed_keypair(OutPublicKey.GetData(), OutPrivateKey.GetData(), TmpSeed.GetData());
+}
+
+int32 FLibsodiumUEModule::Sign(TArray<uint8>& OutSignature, const TArray<uint8>& Message, const TArray<uint8>& PrivateKey)
+{
+	uint64 SignatureLength;
+	OutSignature.SetNum(64);
+	return crypto_sign_ed25519_detached(OutSignature.GetData(), &SignatureLength, Message.GetData(), Message.Num(), PrivateKey.GetData());
 }
 
 void FLibsodiumUEModule::StartupModule()
