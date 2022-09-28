@@ -9,12 +9,12 @@
 #include "Util.h"
 #include "VaRestSubsystem.h"
 
-RpcClient::RpcClient(const FString& InEndpoint)
+FRpcClient::FRpcClient(const FString& InEndpoint)
 	: Endpoint(InEndpoint)
 {
 }
 
-void RpcClient::GetRecentTransactions(uint64 Count, const FRpcSuccessDelegate& SuccessDelegate)
+void FRpcClient::GetRecentTransactions(uint64 Count, const FRpcSuccessDelegate& SuccessDelegate)
 {
 	TArray<TSharedPtr<FJsonValue>> Params;
 	Params.Add(MakeShareable(new FJsonValueNumberString(FUtil::UInt64ToFString(Count))));
@@ -22,13 +22,13 @@ void RpcClient::GetRecentTransactions(uint64 Count, const FRpcSuccessDelegate& S
 	SendRequest(Request, SuccessDelegate);
 }
 
-void RpcClient::GetTotalTransactionNumber(const FRpcSuccessDelegate& SuccessDelegate)
+void FRpcClient::GetTotalTransactionNumber(const FRpcSuccessDelegate& SuccessDelegate)
 {
 	const FJsonRpcRequest Request(TEXT("sui_getTotalTransactionNumber"), TArray<TSharedPtr<FJsonValue>>());
 	SendRequest(Request, SuccessDelegate);
 }
 
-void RpcClient::GetTransaction(const FString& Digest, const FRpcSuccessDelegate& SuccessDelegate)
+void FRpcClient::GetTransaction(const FString& Digest, const FRpcSuccessDelegate& SuccessDelegate)
 {
 	TArray<TSharedPtr<FJsonValue>> Params;
 	Params.Add(MakeShareable(new FJsonValueString(Digest)));
@@ -36,7 +36,7 @@ void RpcClient::GetTransaction(const FString& Digest, const FRpcSuccessDelegate&
 	SendRequest(Request, SuccessDelegate);
 }
 
-void RpcClient::GetTransactionsInRange(uint64 Start, uint64 End, const FRpcSuccessDelegate& SuccessDelegate)
+void FRpcClient::GetTransactionsInRange(uint64 Start, uint64 End, const FRpcSuccessDelegate& SuccessDelegate)
 {
 	TArray<TSharedPtr<FJsonValue>> Params;
 	Params.Add(MakeShareable(new FJsonValueNumberString(FUtil::UInt64ToFString(Start))));
@@ -45,7 +45,7 @@ void RpcClient::GetTransactionsInRange(uint64 Start, uint64 End, const FRpcSucce
 	SendRequest(Request, SuccessDelegate);
 }
 
-void RpcClient::GetObject(const FString& ObjectId, const FRpcSuccessDelegate& SuccessDelegate)
+void FRpcClient::GetObject(const FString& ObjectId, const FRpcSuccessDelegate& SuccessDelegate)
 {
 	TArray<TSharedPtr<FJsonValue>> Params;
 	Params.Add(MakeShareable(new FJsonValueString(ObjectId)));
@@ -53,7 +53,7 @@ void RpcClient::GetObject(const FString& ObjectId, const FRpcSuccessDelegate& Su
 	SendRequest(Request, SuccessDelegate);
 }
 
-void RpcClient::GetObjectsOwnedByAddress(const FString& Address, const FRpcSuccessDelegate& SuccessDelegate)
+void FRpcClient::GetObjectsOwnedByAddress(const FString& Address, const FRpcSuccessDelegate& SuccessDelegate)
 {
 	TArray<TSharedPtr<FJsonValue>> Params;
 	Params.Add(MakeShareable(new FJsonValueString(Address)));
@@ -61,7 +61,7 @@ void RpcClient::GetObjectsOwnedByAddress(const FString& Address, const FRpcSucce
 	SendRequest(Request, SuccessDelegate);
 }
 
-void RpcClient::GetObjectsOwnedByObject(const FString& ObjectId, const FRpcSuccessDelegate& SuccessDelegate)
+void FRpcClient::GetObjectsOwnedByObject(const FString& ObjectId, const FRpcSuccessDelegate& SuccessDelegate)
 {
 	TArray<TSharedPtr<FJsonValue>> Params;
 	Params.Add(MakeShareable(new FJsonValueString(ObjectId)));
@@ -69,7 +69,7 @@ void RpcClient::GetObjectsOwnedByObject(const FString& ObjectId, const FRpcSucce
 	SendRequest(Request, SuccessDelegate);
 }
 
-void RpcClient::MoveCall(const FString& Signer, const FString& PackageObjectId, const FString& Module, const FString& Function,
+void FRpcClient::MoveCall(const FString& Signer, const FString& PackageObjectId, const FString& Module, const FString& Function,
 		const TArray<FString>& TypeArguments, const TArray<TSharedPtr<FJsonValue>> Arguments, const FString& Gas, uint64 GasBudget, const FRpcSuccessDelegate& SuccessDelegate)
 {
 	TArray<TSharedPtr<FJsonValue>> TypeArgumentJsonValues;
@@ -92,7 +92,7 @@ void RpcClient::MoveCall(const FString& Signer, const FString& PackageObjectId, 
 	SendRequest(Request, SuccessDelegate);
 }
 
-void RpcClient::ExecuteTransaction(const FString& TxBytes, const FString& Signature, const FString& PublicKey, const FRpcSuccessDelegate& SuccessDelegate)
+void FRpcClient::ExecuteTransaction(const FString& TxBytes, const FString& Signature, const FString& PublicKey, const FRpcSuccessDelegate& SuccessDelegate)
 {
 	TArray<TSharedPtr<FJsonValue>> Params;
 	Params.Add(MakeShareable(new FJsonValueString(TxBytes)));
@@ -102,7 +102,7 @@ void RpcClient::ExecuteTransaction(const FString& TxBytes, const FString& Signat
 	SendRequest(Request, SuccessDelegate);
 }
 
-void RpcClient::SendRequest(const FJsonRpcRequest& Request, const FRpcSuccessDelegate& SuccessDelegate, const FRpcErrorDelegate& ErrorDelegate)
+void FRpcClient::SendRequest(const FJsonRpcRequest& Request, const FRpcSuccessDelegate& SuccessDelegate, const FRpcErrorDelegate& ErrorDelegate)
 {
 	const TSharedPtr<FJsonObject> JsonRequestObject = FJsonObjectConverter::UStructToJsonObject(Request);
 	JsonRequestObject->SetArrayField("params", Request.Params);

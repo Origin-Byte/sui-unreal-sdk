@@ -11,10 +11,10 @@ DECLARE_DELEGATE_OneParam(FRpcErrorDelegate, const FJsonRpcErrorResponse&);
 /**
  * 
  */
-class SUIUNREALSDKCORE_API RpcClient
+class SUIUNREALSDKCORE_API FRpcClient
 {
 public:
-	RpcClient(const FString& InEndpoint);
+	FRpcClient(const FString& InEndpoint);
 	FORCEINLINE const FString& GetEndpoint() const { return Endpoint; }
 
 	void GetRecentTransactions(uint64 Count, const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate());
