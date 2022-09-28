@@ -7,12 +7,16 @@
 class FLibsodiumUEModule : public IModuleInterface
 {
 public:
-
+	
 	/** IModuleInterface implementation */
 	virtual void StartupModule() override;
 	virtual void ShutdownModule() override;
 
-private:
-	/** Handle to the test dll we will load */
-	void*	ExampleLibraryHandle;
+	static inline FLibsodiumUEModule& Get() {
+		return FModuleManager::LoadModuleChecked<FLibsodiumUEModule>("LibsodiumUE");
+	}
+
+	static inline bool IsAvailable() {
+		return FModuleManager::Get().IsModuleLoaded("LibsodiumUE");
+	}
 };

@@ -26,7 +26,6 @@ public class LibsodiumUE : ModuleRules
 			new string[]
 			{
 				"Core",
-				"LibsodiumUELibrary",
 				"Projects"
 				// ... add other public dependencies that you statically link with here ...
 			}
@@ -36,7 +35,7 @@ public class LibsodiumUE : ModuleRules
 		PrivateDependencyModuleNames.AddRange(
 			new string[]
 			{
-				// ... add private dependencies that you statically link with here ...	
+				"LibsodiumUELibrary"
 			}
 			);
 		

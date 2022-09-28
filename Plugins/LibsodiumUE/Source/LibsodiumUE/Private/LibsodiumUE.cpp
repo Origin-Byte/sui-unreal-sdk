@@ -3,11 +3,13 @@
 #include "LibsodiumUE.h"
 #include "Core.h"
 #include "Modules/ModuleManager.h"
+#include "sodium.h"
 
 #define LOCTEXT_NAMESPACE "FLibsodiumUEModule"
 
 void FLibsodiumUEModule::StartupModule()
 {
+	sodium_init();
 }
 
 void FLibsodiumUEModule::ShutdownModule()

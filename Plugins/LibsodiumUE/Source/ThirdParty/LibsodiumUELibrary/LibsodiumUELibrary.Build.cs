@@ -9,10 +9,15 @@ public class LibsodiumUELibrary : ModuleRules
 	{
 		Type = ModuleType.External;
 
+		PublicIncludePaths.Add(Path.Combine(ModuleDirectory, "src", "libsodium", "include"));
+		
+		PublicDefinitions.Add("SODIUM_STATIC=1");
+		PublicDefinitions.Add("SODIUM_EXPORT=");
+		
 		if (Target.Platform == UnrealTargetPlatform.Win64)
 		{
 			// Add the import library
 			PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "Build", "Release", "x64", "libsodium.lib"));
-        }     
+		}     
 	}
 }
