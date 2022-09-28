@@ -1,0 +1,3 @@
+C:/src/bip39-master/src/build/CMakeFiles/bip39.dir
+C:/src/bip39-master/src/build/CMakeFiles/ALL_BUILD.dir
+C:/src/bip39-master/src/build/CMakeFiles/ZERO_CHECK.dir
