@@ -96,6 +96,7 @@ void FRpcClient::ExecuteTransaction(const FString& TxBytes, const FString& Signa
 {
 	TArray<TSharedPtr<FJsonValue>> Params;
 	Params.Add(MakeShareable(new FJsonValueString(TxBytes)));
+	Params.Add(MakeShareable(new FJsonValueString(TEXT("ED25519")))); // we support this scheme for now
 	Params.Add(MakeShareable(new FJsonValueString(Signature)));
 	Params.Add(MakeShareable(new FJsonValueString(PublicKey)));
 	const FJsonRpcRequest Request(TEXT("sui_executeTransaction"), Params);
