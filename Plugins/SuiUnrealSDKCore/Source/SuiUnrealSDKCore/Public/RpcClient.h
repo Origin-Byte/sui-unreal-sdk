@@ -25,6 +25,11 @@ public:
 	void GetObjectsOwnedByAddress(const FString& Address, const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate());
 	void GetObjectsOwnedByObject(const FString& ObjectId, const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate());
 
+	void MoveCall(const FString& Signer, const FString& PackageObjectId, const FString& Module, const FString& Function,
+		const TArray<FString>& TypeArguments, const TArray<TSharedPtr<FJsonValue>> Arguments, const FString& Gas, uint64 GasBudget, const FRpcSuccessDelegate& SuccessDelegate);
+
+	void ExecuteTransaction(const FString& TxBytes, const FString& Signature, const FString& PublicKey, const FRpcSuccessDelegate& SuccessDelegate);
+	
 private:
 	void SendRequest(const FJsonRpcRequest& Request, const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate(), const FRpcErrorDelegate& ErrorDelegate = FRpcErrorDelegate());
 

@@ -6,6 +6,7 @@
 #include "Serialization/JsonSerializer.h"
 #include "SuiUnrealSDKCore.h"
 #include "JsonObjectConverter.h"
+#include "Util.h"
 #include "VaRestSubsystem.h"
 
 RpcClient::RpcClient(const FString& InEndpoint)
@@ -16,7 +17,7 @@ RpcClient::RpcClient(const FString& InEndpoint)
 void RpcClient::GetRecentTransactions(uint64 Count, const FRpcSuccessDelegate& SuccessDelegate)
 {
 	TArray<TSharedPtr<FJsonValue>> Params;
-	Params.Add(MakeShareable(new FJsonValueNumberString(FString::Printf(TEXT("%llu"), Count))));
+	Params.Add(MakeShareable(new FJsonValueNumberString(FUtil::UInt64ToFString(Count))));
 	const FJsonRpcRequest Request(TEXT("sui_getRecentTransactions"), Params);
 	SendRequest(Request, SuccessDelegate);
 }
@@ -38,8 +39,8 @@ void RpcClient::GetTransaction(const FString& Digest, const FRpcSuccessDelegate&
 void RpcClient::GetTransactionsInRange(uint64 Start, uint64 End, const FRpcSuccessDelegate& SuccessDelegate)
 {
 	TArray<TSharedPtr<FJsonValue>> Params;
-	Params.Add(MakeShareable(new FJsonValueNumberString(FString::Printf(TEXT("%llu"), Start))));
-	Params.Add(MakeShareable(new FJsonValueNumberString(FString::Printf(TEXT("%llu"), End))));
+	Params.Add(MakeShareable(new FJsonValueNumberString(FUtil::UInt64ToFString(Start))));
+	Params.Add(MakeShareable(new FJsonValueNumberString(FUtil::UInt64ToFString(End))));
 	const FJsonRpcRequest Request(TEXT("sui_getTransactionsInRange"), Params);
 	SendRequest(Request, SuccessDelegate);
 }
@@ -68,6 +69,38 @@ void RpcClient::GetObjectsOwnedByObject(const FString& ObjectId, const FRpcSucce
 	SendRequest(Request, SuccessDelegate);
 }
 
+void RpcClient::MoveCall(const FString& Signer, const FString& PackageObjectId, const FString& Module, const FString& Function,
+		const TArray<FString>& TypeArguments, const TArray<TSharedPtr<FJsonValue>> Arguments, const FString& Gas, uint64 GasBudget, const FRpcSuccessDelegate& SuccessDelegate)
+{
+	TArray<TSharedPtr<FJsonValue>> TypeArgumentJsonValues;
+	for(auto TypeArg : TypeArguments)
+	{
+		TypeArgumentJsonValues.Add(MakeShareable(new FJsonValueString(TypeArg)));
+	}
+	
+	TArray<TSharedPtr<FJsonValue>> Params;
+	Params.Add(MakeShareable(new FJsonValueString(Signer)));
+	Params.Add(MakeShareable(new FJsonValueString(PackageObjectId)));
+	Params.Add(MakeShareable(new FJsonValueString(Module)));
+	Params.Add(MakeShareable(new FJsonValueString(Function)));
+	Params.Add(MakeShareable(new FJsonValueArray(TypeArgumentJsonValues)));
+	Params.Add(MakeShareable(new FJsonValueArray(Arguments)));
+	Params.Add(MakeShareable(new FJsonValueString(Gas)));
+	Params.Add(MakeShareable(new FJsonValueNumberString(FUtil::UInt64ToFString(GasBudget))));
+
+	const FJsonRpcRequest Request(TEXT("sui_moveCall"), Params);
+	SendRequest(Request, SuccessDelegate);
+}
+
+void RpcClient::ExecuteTransaction(const FString& TxBytes, const FString& Signature, const FString& PublicKey, const FRpcSuccessDelegate& SuccessDelegate)
+{
+	TArray<TSharedPtr<FJsonValue>> Params;
+	Params.Add(MakeShareable(new FJsonValueString(TxBytes)));
+	Params.Add(MakeShareable(new FJsonValueString(Signature)));
+	Params.Add(MakeShareable(new FJsonValueString(PublicKey)));
+	const FJsonRpcRequest Request(TEXT("sui_executeTransaction"), Params);
+	SendRequest(Request, SuccessDelegate);
+}
 
 void RpcClient::SendRequest(const FJsonRpcRequest& Request, const FRpcSuccessDelegate& SuccessDelegate, const FRpcErrorDelegate& ErrorDelegate)
 {
