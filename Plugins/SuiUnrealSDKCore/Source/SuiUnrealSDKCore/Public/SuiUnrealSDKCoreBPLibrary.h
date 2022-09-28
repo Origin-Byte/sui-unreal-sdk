@@ -4,11 +4,10 @@
 
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "KeshUE4FundamentalTypeWrapperPlugin/KeshUInt64.h"
-#include "SuiTypes.h"
-#include "JsonBlueprintFunctionLibrary.h"
+#include "RpcTypes.h"
 #include "SuiUnrealSDKCoreBPLibrary.generated.h"
 
-DECLARE_DYNAMIC_DELEGATE_OneParam(FRpcResultReceivedDelegate, const FJsonObjectWrapper&, Result);
+DECLARE_DYNAMIC_DELEGATE_OneParam(FRpcResultReceivedDelegate, UVaRestJsonValue*, Result);
 
 UCLASS()
 class USuiUnrealSDKCoreBPLibrary : public UBlueprintFunctionLibrary

@@ -6,8 +6,9 @@
 #include "PlatformHttp.h"
 #include "HttpModule.h"
 #include "Serialization/JsonSerializer.h"
-#include "SuiTypes.h"
+#include "RpcTypes.h"
 #include "RpcClient.h"
+#include "VaRestSubsystem.h"
 
 USuiUnrealSDKCoreBPLibrary::USuiUnrealSDKCoreBPLibrary(const FObjectInitializer& ObjectInitializer)
 : Super(ObjectInitializer)
@@ -20,7 +21,8 @@ void USuiUnrealSDKCoreBPLibrary::GetTotalTransactionNumber(const FString& Endpoi
 	auto Client = RpcClient(Endpoint);
 	FRpcSuccessDelegate RpcSuccessDelegate;
 	RpcSuccessDelegate.BindLambda([OnResult](const FJsonRpcValidResponse& RpcResponse) {
-		OnResult.ExecuteIfBound(RpcResponse.Result);
+		const auto VaJsonValue = GEngine->GetEngineSubsystem<UVaRestSubsystem>()->ConstructJsonValue(RpcResponse.Result);
+		OnResult.ExecuteIfBound(VaJsonValue);
 	});
 	Client.GetTotalTransactionNumber(RpcSuccessDelegate);
 }
@@ -30,7 +32,8 @@ void USuiUnrealSDKCoreBPLibrary::GetRecentTransactions(const FString& Endpoint, 
 	auto Client = RpcClient(Endpoint);
 	FRpcSuccessDelegate RpcSuccessDelegate;
 	RpcSuccessDelegate.BindLambda([OnResult](const FJsonRpcValidResponse& RpcResponse) {
-		OnResult.ExecuteIfBound(RpcResponse.Result);
+		const auto VaJsonValue = GEngine->GetEngineSubsystem<UVaRestSubsystem>()->ConstructJsonValue(RpcResponse.Result);
+		OnResult.ExecuteIfBound(VaJsonValue);
 		});
 	Client.GetRecentTransactions(Count.Value, RpcSuccessDelegate);
 }
@@ -40,7 +43,8 @@ void USuiUnrealSDKCoreBPLibrary::GetTransaction(const FString& Endpoint, const F
 	auto Client = RpcClient(Endpoint);
 	FRpcSuccessDelegate RpcSuccessDelegate;
 	RpcSuccessDelegate.BindLambda([OnResult](const FJsonRpcValidResponse& RpcResponse) {
-		OnResult.ExecuteIfBound(RpcResponse.Result);
+		const auto VaJsonValue = GEngine->GetEngineSubsystem<UVaRestSubsystem>()->ConstructJsonValue(RpcResponse.Result);
+		OnResult.ExecuteIfBound(VaJsonValue);
 		});
 	Client.GetTransaction(Digest, RpcSuccessDelegate);
 }
@@ -50,7 +54,8 @@ void USuiUnrealSDKCoreBPLibrary::GetTransactionsInRange(const FString& Endpoint,
 	auto Client = RpcClient(Endpoint);
 	FRpcSuccessDelegate RpcSuccessDelegate;
 	RpcSuccessDelegate.BindLambda([OnResult](const FJsonRpcValidResponse& RpcResponse) {
-		OnResult.ExecuteIfBound(RpcResponse.Result);
+		const auto VaJsonValue = GEngine->GetEngineSubsystem<UVaRestSubsystem>()->ConstructJsonValue(RpcResponse.Result);
+		OnResult.ExecuteIfBound(VaJsonValue);
 		});
 	Client.GetTransactionsInRange(Start.Value, End.Value, RpcSuccessDelegate);
 }
@@ -60,7 +65,8 @@ void USuiUnrealSDKCoreBPLibrary::GetObject(const FString& Endpoint, const FStrin
 	auto Client = RpcClient(Endpoint);
 	FRpcSuccessDelegate RpcSuccessDelegate;
 	RpcSuccessDelegate.BindLambda([OnResult](const FJsonRpcValidResponse& RpcResponse) {
-		OnResult.ExecuteIfBound(RpcResponse.Result);
+		const auto VaJsonValue = GEngine->GetEngineSubsystem<UVaRestSubsystem>()->ConstructJsonValue(RpcResponse.Result);
+		OnResult.ExecuteIfBound(VaJsonValue);
 		});
 	Client.GetObject(ObjectId, RpcSuccessDelegate);
 }
@@ -70,7 +76,8 @@ void USuiUnrealSDKCoreBPLibrary::GetObjectsOwnedByAddress(const FString& Endpoin
 	auto Client = RpcClient(Endpoint);
 	FRpcSuccessDelegate RpcSuccessDelegate;
 	RpcSuccessDelegate.BindLambda([OnResult](const FJsonRpcValidResponse& RpcResponse) {
-		OnResult.ExecuteIfBound(RpcResponse.Result);
+		const auto VaJsonValue = GEngine->GetEngineSubsystem<UVaRestSubsystem>()->ConstructJsonValue(RpcResponse.Result);
+		OnResult.ExecuteIfBound(VaJsonValue);
 		});
 	Client.GetObjectsOwnedByAddress(Address, RpcSuccessDelegate);
 }
@@ -80,7 +87,8 @@ void USuiUnrealSDKCoreBPLibrary::GetObjectsOwnedByObject(const FString& Endpoint
 	auto Client = RpcClient(Endpoint);
 	FRpcSuccessDelegate RpcSuccessDelegate;
 	RpcSuccessDelegate.BindLambda([OnResult](const FJsonRpcValidResponse& RpcResponse) {
-		OnResult.ExecuteIfBound(RpcResponse.Result);
+		const auto VaJsonValue = GEngine->GetEngineSubsystem<UVaRestSubsystem>()->ConstructJsonValue(RpcResponse.Result);
+		OnResult.ExecuteIfBound(VaJsonValue);
 		});
 	Client.GetObjectsOwnedByObject(ObjectId, RpcSuccessDelegate);
 }

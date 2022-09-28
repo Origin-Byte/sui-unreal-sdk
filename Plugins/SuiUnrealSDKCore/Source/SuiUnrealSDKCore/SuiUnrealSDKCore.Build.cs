@@ -28,8 +28,8 @@ public class SuiUnrealSDKCore : ModuleRules
 				"Json",
                 "JsonUtilities",
 				"KeshUE4FundamentalTypeWrapperPlugin",
-				"JsonBlueprintUtilities"
-			}
+                "VaRest"
+            }
 			);
 
 
