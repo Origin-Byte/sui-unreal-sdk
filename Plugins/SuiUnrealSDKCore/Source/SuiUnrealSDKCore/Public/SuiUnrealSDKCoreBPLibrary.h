@@ -34,5 +34,12 @@ class USuiUnrealSDKCoreBPLibrary : public UBlueprintFunctionLibrary
 
 	UFUNCTION(BlueprintCallable, Category = "Sui")
 	static void GetObjectsOwnedByObject(const FString& Endpoint, const FString& ObjectId, const FRpcResultReceivedDelegate& OnResult);
+
+	UFUNCTION(BlueprintCallable, Category = "Sui")
+	static void MoveCall(const FString& Endpoint, const FString& Signer, const FString& PackageObjectId, const FString& Module, const FString& Function,
+		const TArray<FString>& TypeArguments, const TArray<UVaRestJsonValue*> Arguments, const FString& Gas, FKeshUInt64 GasBudget, const FRpcResultReceivedDelegate& OnResult);
+	
+	UFUNCTION(BlueprintCallable, Category = "Sui")
+	static void ExecuteTransaction(const FString& Endpoint, const FString& TxBytes, const FString& Signature, const FString& PublicKey, const FRpcResultReceivedDelegate& OnResult);
 };
 
