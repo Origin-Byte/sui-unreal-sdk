@@ -4,9 +4,10 @@
 
 #include "Modules/ModuleManager.h"
 
-class FLibsodiumUEModule : public IModuleInterface
+class LIBSODIUMUE_API FLibsodiumUEModule : public IModuleInterface
 {
 public:
+	int32 Ed25519KeyPairFromSeed(TArray<uint8>& PublicKey, TArray<uint8>& PrivateKey, const TArray<uint8>& Seed);
 	
 	/** IModuleInterface implementation */
 	virtual void StartupModule() override;

@@ -19,7 +19,6 @@ public class SuiUnrealSDKCore : ModuleRules
 			}
 			);
 
-
 		PublicDependencyModuleNames.AddRange(
 			new string[]
 			{
@@ -28,7 +27,8 @@ public class SuiUnrealSDKCore : ModuleRules
 				"Json",
                 "JsonUtilities",
 				"KeshUE4FundamentalTypeWrapperPlugin",
-                "VaRest"
+                "VaRest",
+                "LibsodiumUE"
             }
 			);
 
