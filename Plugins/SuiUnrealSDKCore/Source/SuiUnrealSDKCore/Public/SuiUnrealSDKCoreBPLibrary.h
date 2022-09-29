@@ -44,6 +44,9 @@ class USuiUnrealSDKCoreBPLibrary : public UBlueprintFunctionLibrary
 	static void SignAndExecuteTransaction(const FString& Endpoint, const FString& TxBytes, const FEd25519KeyPair KeyPair, const FRpcResultReceivedDelegate& OnResult);
 
 	UFUNCTION(BlueprintCallable, Category = "Sui|Crypto")
-	static void CreateKeypairFromMnemonics(FEd25519KeyPair& KeyPair, const FString& Mnemonics);
+	static void CreateKeypairFromMnemonic(FEd25519KeyPair& KeyPair, const FString& Mnemonic);
+
+	UFUNCTION(BlueprintCallable, Category = "Sui|Crypto")
+	static void GenerateMnemonic(FString& Mnemonic);
 };
 

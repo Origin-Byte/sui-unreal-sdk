@@ -129,10 +129,15 @@ void USuiUnrealSDKCoreBPLibrary::SignAndExecuteTransaction(const FString& Endpoi
 	Client.ExecuteTransaction(TxBytes, Signature, KeyPair.PublicKeyBase64, RpcSuccessDelegate);
 }
 
-void USuiUnrealSDKCoreBPLibrary::CreateKeypairFromMnemonics(FEd25519KeyPair& KeyPair, const FString& Mnemonics)
+void USuiUnrealSDKCoreBPLibrary::CreateKeypairFromMnemonic(FEd25519KeyPair& KeyPair, const FString& Mnemonic)
 {
 	TArray<uint8> Seed;
 	// TODO validation
-	FBip39UEModule::Get().MnemonicToSeed(Seed, Mnemonics, TEXT(""));
+	FBip39UEModule::Get().MnemonicToSeed(Seed, Mnemonic, TEXT(""));
 	FLibsodiumUEModule::Get().Ed25519KeyPairFromSeed(KeyPair, Seed);
+}
+
+void USuiUnrealSDKCoreBPLibrary::GenerateMnemonic(FString& Mnemonic)
+{
+	FBip39UEModule::Get().GenerateMnemonic(Mnemonic);
 }
