@@ -136,11 +136,14 @@ void FRpcClient::SendRequest(const FJsonRpcRequest& Request, const FRpcSuccessDe
 				const TSharedRef<TJsonReader<>> Reader = TJsonReaderFactory<>::Create(ResponseString);
 				if (TSharedPtr<FJsonObject> JsonObject; FJsonSerializer::Deserialize(Reader, JsonObject))
 				{
-					FJsonRpcValidResponse ValidResponse;			
-					FJsonObjectConverter::JsonObjectToUStruct(JsonObject.ToSharedRef(), FJsonRpcValidResponse::StaticStruct(), &ValidResponse, 0, 0);
-
-					ValidResponse.Result = JsonObject->Values[TEXT("result")];					
-					SuccessDelegate.ExecuteIfBound(ValidResponse);
+					if (JsonObject->HasField("result"))
+					{
+						FJsonRpcValidResponse ValidResponse;			
+						FJsonObjectConverter::JsonObjectToUStruct(JsonObject.ToSharedRef(), FJsonRpcValidResponse::StaticStruct(), &ValidResponse, 0, 0);
+					
+						ValidResponse.Result = JsonObject->Values[TEXT("result")];					
+						SuccessDelegate.ExecuteIfBound(ValidResponse);
+					}
 				}
 				else
 				{
