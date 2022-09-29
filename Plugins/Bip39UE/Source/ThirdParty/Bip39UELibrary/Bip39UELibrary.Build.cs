@@ -15,6 +15,7 @@ public class Bip39UELibrary : ModuleRules
 		{
 			// Add the import library
 			PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "lib", "Release", "x64", "bip39.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "lib", "Release", "x64", "toolbox.lib"));
 		}
 	}
 }
