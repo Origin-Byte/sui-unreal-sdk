@@ -7,7 +7,7 @@ Connecting Unreal game developers to Sui blockchain and Origin Byte's NFT ecosys
 	- Get SUI objects
 	- Call Sui Move contracts
 	- Sign and Execute Transactions
-- Restore private and public keys from BIP39 mnemonics
+- Restore Ed25519 Keypairs from BIP39 mnemonics
 - Tested on Windows desktop with Sui version 0.10.0
 - Works with Unreal Engine 5
 
@@ -48,8 +48,8 @@ Sign And Execute Transactions:
 
 ![Sign And Execute Transactions](/imgs/sign_execute_transaction.png "Sign And Execute Transactions")
 
-## Crypto Helpers API
-![Crypto Helpers API Blueprints](/imgs/crypto_helpers_nodes.png "Crypto Helpers API Blueprints")
+## Wallet API
+![Wallet API Blueprints](/imgs/crypto_helpers_nodes.png "Wallet API Blueprints")
 
 
 # Copy paste Blueprint Nodes
@@ -62,7 +62,8 @@ All the other Dependencies can be found in the Plugins folder.
 # Roadmap
 - More platform support (iOS, Android, Mac)
 - Streaming RPC client, Event subscription
+- More RPC APIs and type bindings
+- WalletConnect support
 - More samples
 - Origin-Byte NFT ecosystem access from Unity
-- More type bindings
 - Higher level APIs, easy-to-use Blueprint nodes
