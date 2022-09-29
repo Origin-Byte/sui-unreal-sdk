@@ -9,10 +9,12 @@ public class Bip39UELibrary : ModuleRules
 	{
 		Type = ModuleType.External;
 
+		PublicIncludePaths.Add(Path.Combine(ModuleDirectory, "include", "bip3x"));
+		
 		if (Target.Platform == UnrealTargetPlatform.Win64)
 		{
 			// Add the import library
-			PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "build", "Release", "bip39.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "lib", "Release", "bip39.lib"));
 		}
 	}
 }

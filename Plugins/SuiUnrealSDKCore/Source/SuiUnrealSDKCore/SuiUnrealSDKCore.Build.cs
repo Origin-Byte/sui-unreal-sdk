@@ -28,7 +28,8 @@ public class SuiUnrealSDKCore : ModuleRules
                 "JsonUtilities",
 				"KeshUE4FundamentalTypeWrapperPlugin",
                 "VaRest",
-                "LibsodiumUE"
+                "LibsodiumUE",
+                "Bip39UE"
             }
 			);
 

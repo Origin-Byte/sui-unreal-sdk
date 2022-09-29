@@ -34,6 +34,10 @@
 		{
 			"Name": "LibsodiumUE",
 			"Enabled": true			
+		},
+		{
+			"Name": "Bip39UE",
+			"Enabled": true
 		}
 	]
 }
