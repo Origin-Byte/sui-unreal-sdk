@@ -6,7 +6,6 @@
 #include "VaRestSubsystem.h"
 #include "LibsodiumUE.h"
 #include "Bip39UE.h"
-#include "SuiUnrealSDKCore.h"
 
 USuiUnrealSDKCoreBPLibrary::USuiUnrealSDKCoreBPLibrary(const FObjectInitializer& ObjectInitializer)
 : Super(ObjectInitializer)
@@ -110,7 +109,7 @@ void USuiUnrealSDKCoreBPLibrary::MoveCall(const FString& Endpoint, const FString
 	Client.MoveCall(Signer, PackageObjectId, Module, Function, TypeArguments, ArgumentJsonValues, Gas, GasBudget, RpcSuccessDelegate);
 }
 
-void USuiUnrealSDKCoreBPLibrary::ExecuteTransaction(const FString& Endpoint, const FString& TxBytes, const FString& Signature, const FString& PublicKey, const FRpcResultReceivedDelegate& OnResult)
+void USuiUnrealSDKCoreBPLibrary::SignAndExecuteTransaction(const FString& Endpoint, const FString& TxBytes, const FEd25519KeyPair KeyPair, const FRpcResultReceivedDelegate& OnResult)
 {	
 	auto Client = FRpcClient(Endpoint);
 	FRpcSuccessDelegate RpcSuccessDelegate;
@@ -118,8 +117,16 @@ void USuiUnrealSDKCoreBPLibrary::ExecuteTransaction(const FString& Endpoint, con
 		const auto VaJsonValue = GEngine->GetEngineSubsystem<UVaRestSubsystem>()->ConstructJsonValue(RpcResponse.Result);
 		OnResult.ExecuteIfBound(VaJsonValue);
 		});
-
-	Client.ExecuteTransaction(TxBytes, Signature, PublicKey, RpcSuccessDelegate);
+	
+	TArray<uint8> SignatureBytes;
+	TArray<uint8> TxDecodedBytes;
+	FBase64::Decode(TxBytes, TxDecodedBytes);
+	
+	FLibsodiumUEModule::Get().Sign(SignatureBytes, TxDecodedBytes, KeyPair.PrivateKey);
+	
+	const FString Signature = FBase64::Encode(SignatureBytes);
+	
+	Client.ExecuteTransaction(TxBytes, Signature, KeyPair.PublicKeyBase64, RpcSuccessDelegate);
 }
 
 void USuiUnrealSDKCoreBPLibrary::CreateKeypairFromMnemonics(FEd25519KeyPair& KeyPair, const FString& Mnemonics)
