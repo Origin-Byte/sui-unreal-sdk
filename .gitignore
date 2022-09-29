@@ -76,3 +76,7 @@ DerivedDataCache/*
 Content/__ExternalActors__/*
 Content/__ExternalObjects__/*
 .idea/.idea.SuiUnrealSDK/.idea/
+
+# Don't ignore ThirdParty folders
+!**/ThirdParty/**
+!*/ThirdParty/*/Build

@@ -14,7 +14,7 @@ public class Bip39UELibrary : ModuleRules
 		if (Target.Platform == UnrealTargetPlatform.Win64)
 		{
 			// Add the import library
-			PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "lib", "Release", "bip39.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "lib", "Release", "x64", "bip39.lib"));
 		}
 	}
 }

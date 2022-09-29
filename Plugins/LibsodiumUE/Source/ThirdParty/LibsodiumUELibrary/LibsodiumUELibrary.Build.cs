@@ -17,7 +17,7 @@ public class LibsodiumUELibrary : ModuleRules
 		if (Target.Platform == UnrealTargetPlatform.Win64)
 		{
 			// Add the import library
-			PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "Build", "Release", "x64", "libsodium.lib"));
+			PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "lib", "Release", "x64", "libsodium.lib"));
 		}     
 	}
 }
