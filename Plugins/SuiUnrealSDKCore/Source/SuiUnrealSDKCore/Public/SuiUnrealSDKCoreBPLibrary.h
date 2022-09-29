@@ -4,7 +4,7 @@
 
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "KeshUE4FundamentalTypeWrapperPlugin/KeshUInt64.h"
-#include "RpcTypes.h"
+#include "Types.h"
 #include "SuiUnrealSDKCoreBPLibrary.generated.h"
 
 DECLARE_DYNAMIC_DELEGATE_OneParam(FRpcResultReceivedDelegate, UVaRestJsonValue*, Result);
@@ -40,6 +40,16 @@ class USuiUnrealSDKCoreBPLibrary : public UBlueprintFunctionLibrary
 		const TArray<FString>& TypeArguments, const TArray<UVaRestJsonValue*> Arguments, const FString& Gas, FKeshUInt64 GasBudget, const FRpcResultReceivedDelegate& OnResult);
 	
 	UFUNCTION(BlueprintCallable, Category = "Sui")
-	static void ExecuteTransaction(const FString& Endpoint, const FString& TxBytes, const FString& Signature, const FString& PublicKey, const FRpcResultReceivedDelegate& OnResult);
+	static void ExecuteTransaction(const FString& Endpoint, const FString& TxBytes, const FString& Signature, const FString& PublicKeyBase64, const FRpcResultReceivedDelegate& OnResult);
+	
+	//UFUNCTION(BlueprintCallable, Category = "Sui")
+//	static void SignAndExecuteTransaction(const FString& Endpoint, const FString& TxBytes, const TArray<uint8>& PrivateKey, const TArray<uint8>& PublicKeyBase64, const FRpcResultReceivedDelegate& OnResult);
+
+	// Crypto helpers
+	// UFUNCTION(BlueprintCallable, Category = "Sui|Crypto")
+	// static void MnemonicsToSeed(const FString& Mnemonics, TArray<uint8>& Seed);
+	
+	UFUNCTION(BlueprintCallable, Category = "Sui|Crypto")
+	static void CreateKeypairFromMnemonics(FEd25519KeyPair& KeyPair, const FString& Mnemonics);
 };
 

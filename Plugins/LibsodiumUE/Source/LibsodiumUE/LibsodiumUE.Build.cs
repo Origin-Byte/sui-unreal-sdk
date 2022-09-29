@@ -25,7 +25,8 @@ public class LibsodiumUE : ModuleRules
 			new string[]
 			{
 				"Core",
-				"Projects"
+				"Projects",
+				"CoreUObject",
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);

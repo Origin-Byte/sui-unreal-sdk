@@ -1,10 +1,11 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "SuiUnrealSDKCoreBPLibrary.h"
-#include "RpcTypes.h"
+#include "Types.h"
 #include "RpcClient.h"
 #include "VaRestSubsystem.h"
 #include "LibsodiumUE.h"
+#include "Bip39UE.h"
 #include "SuiUnrealSDKCore.h"
 
 USuiUnrealSDKCoreBPLibrary::USuiUnrealSDKCoreBPLibrary(const FObjectInitializer& ObjectInitializer)
@@ -119,4 +120,12 @@ void USuiUnrealSDKCoreBPLibrary::ExecuteTransaction(const FString& Endpoint, con
 		});
 
 	Client.ExecuteTransaction(TxBytes, Signature, PublicKey, RpcSuccessDelegate);
+}
+
+void USuiUnrealSDKCoreBPLibrary::CreateKeypairFromMnemonics(FEd25519KeyPair& KeyPair, const FString& Mnemonics)
+{
+	TArray<uint8> Seed;
+	// TODO validation
+	FBip39UEModule::Get().MnemonicToSeed(Seed, Mnemonics, TEXT(""));
+	FLibsodiumUEModule::Get().Ed25519KeyPairFromSeed(KeyPair, Seed);
 }
