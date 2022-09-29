@@ -9,7 +9,7 @@ public class LibsodiumUELibrary : ModuleRules
 	{
 		Type = ModuleType.External;
 
-		PublicIncludePaths.Add(Path.Combine(ModuleDirectory, "src", "libsodium", "include"));
+		PublicIncludePaths.Add(Path.Combine(ModuleDirectory, "include"));
 		
 		PublicDefinitions.Add("SODIUM_STATIC=1");
 		PublicDefinitions.Add("SODIUM_EXPORT=");
