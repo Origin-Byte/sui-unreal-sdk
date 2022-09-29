@@ -4,7 +4,7 @@
 #include "Core.h"
 #include "Modules/ModuleManager.h"
 #include "bip3x/bip39.h"
-//#include "bip3x/Bip39Mnemonic.h"
+#include "bip3x/Bip39Mnemonic.h"
 
 #define LOCTEXT_NAMESPACE "FBip39UEModule"
 
@@ -17,18 +17,18 @@ int32 FBip39UEModule::MnemonicToSeed(TArray<uint8>& OutSeed, const FString& Mnem
 
 void FBip39UEModule::GenerateMnemonic(FString& OutMnemonic)
 {
-	// const auto [status, words, raw, len] = bip3x::Bip39Mnemonic::generate("en", 128);
-	//
-	// for(int i = 0; i < words.size(); i++)
-	// {
-	// 	auto Word = words[i];
-	// 	OutMnemonic.Append(Word.c_str());
-	//
-	// 	if (i < words.size() - 1)
-	// 	{
-	// 		OutMnemonic.Append(TEXT(" "));
-	// 	}
-	// }
+	const auto [status, words, raw, len] = bip3x::Bip39Mnemonic::generate("en", BIP39_ENTROPY_LEN_128);
+
+	for(int i = 0; i < words.size(); i++)
+	{
+		auto Word = words[i];
+		OutMnemonic.Append(UTF8_TO_TCHAR(Word.c_str()));
+
+		if (i < words.size() - 1)
+		{
+			OutMnemonic.Append(TEXT(" "));
+		}
+	}
 }
 
 void FBip39UEModule::StartupModule()
