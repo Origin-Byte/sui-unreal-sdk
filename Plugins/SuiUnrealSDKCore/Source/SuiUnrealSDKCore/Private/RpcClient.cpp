@@ -103,6 +103,72 @@ void FRpcClient::ExecuteTransaction(const FString& TxBytes, const FString& Signa
 	SendRequest(Request, SuccessDelegate);
 }
 
+void FRpcClient::GetEventsByModule(const FString& PackageId, const FString& ModuleName, uint32 Count, uint64 StartTime, uint64 EndTime, const FRpcSuccessDelegate& SuccessDelegate)
+{
+	UE_LOG(LogSuiUnrealSDKCore, Verbose, TEXT("GetEventsByModule. EndTime: %s"), *FUtil::UInt64ToFString(EndTime));
+	
+	TArray<TSharedPtr<FJsonValue>> Params;
+	Params.Add(MakeShareable(new FJsonValueString(PackageId)));
+	Params.Add(MakeShareable(new FJsonValueString(ModuleName)));
+	Params.Add(MakeShareable(new FJsonValueNumberString(FUtil::UInt32ToFString(Count))));
+	Params.Add(MakeShareable(new FJsonValueNumberString(FUtil::UInt64ToFString(StartTime))));
+	Params.Add(MakeShareable(new FJsonValueNumberString(FUtil::UInt64ToFString(EndTime))));
+	const FJsonRpcRequest Request(TEXT("sui_getEventsByModule"), Params);
+	SendRequest(Request, SuccessDelegate);
+}
+
+void FRpcClient::GetEventsByMoveEventStructName(const FString& MoveEventStructName, uint32 Count, uint64 StartTime, uint64 EndTime, const FRpcSuccessDelegate& SuccessDelegate)
+{
+	TArray<TSharedPtr<FJsonValue>> Params;
+	Params.Add(MakeShareable(new FJsonValueString(MoveEventStructName)));
+	Params.Add(MakeShareable(new FJsonValueNumberString(FUtil::UInt32ToFString(Count))));
+	Params.Add(MakeShareable(new FJsonValueNumberString(FUtil::UInt64ToFString(StartTime))));
+	Params.Add(MakeShareable(new FJsonValueNumberString(FUtil::UInt64ToFString(EndTime))));
+	const FJsonRpcRequest Request(TEXT("sui_getEventsByMoveEventStructName"), Params);
+	SendRequest(Request, SuccessDelegate);
+}
+
+void FRpcClient::GetEventsByObject(const FString& ObjectId, uint32 Count, uint64 StartTime, uint64 EndTime, const FRpcSuccessDelegate& SuccessDelegate)
+{
+	TArray<TSharedPtr<FJsonValue>> Params;
+	Params.Add(MakeShareable(new FJsonValueString(ObjectId)));
+	Params.Add(MakeShareable(new FJsonValueNumberString(FUtil::UInt32ToFString(Count))));
+	Params.Add(MakeShareable(new FJsonValueNumberString(FUtil::UInt64ToFString(StartTime))));
+	Params.Add(MakeShareable(new FJsonValueNumberString(FUtil::UInt64ToFString(EndTime))));
+	const FJsonRpcRequest Request(TEXT("sui_getEventsByObject"), Params);
+	SendRequest(Request, SuccessDelegate);
+}
+
+void FRpcClient::GetEventsBySender(const FString& SenderAddress, uint32 Count, uint64 StartTime, uint64 EndTime, const FRpcSuccessDelegate& SuccessDelegate)
+{
+	TArray<TSharedPtr<FJsonValue>> Params;
+	Params.Add(MakeShareable(new FJsonValueString(SenderAddress)));
+	Params.Add(MakeShareable(new FJsonValueNumberString(FUtil::UInt32ToFString(Count))));
+	Params.Add(MakeShareable(new FJsonValueNumberString(FUtil::UInt64ToFString(StartTime))));
+	Params.Add(MakeShareable(new FJsonValueNumberString(FUtil::UInt64ToFString(EndTime))));
+	const FJsonRpcRequest Request(TEXT("sui_getEventsBySender"), Params);
+	SendRequest(Request, SuccessDelegate);
+}
+
+void FRpcClient::GetEventsByTimeRange(uint32 Count, uint64 StartTime, uint64 EndTime, const FRpcSuccessDelegate& SuccessDelegate)
+{
+	TArray<TSharedPtr<FJsonValue>> Params;
+	Params.Add(MakeShareable(new FJsonValueNumberString(FUtil::UInt32ToFString(Count))));
+	Params.Add(MakeShareable(new FJsonValueNumberString(FUtil::UInt64ToFString(StartTime))));
+	Params.Add(MakeShareable(new FJsonValueNumberString(FUtil::UInt64ToFString(EndTime))));
+	const FJsonRpcRequest Request(TEXT("sui_getEventsByTimeRange"), Params);
+	SendRequest(Request, SuccessDelegate);
+}
+
+void FRpcClient::GetEventsByTransaction(const FString& Digest, uint32 Count, const FRpcSuccessDelegate& SuccessDelegate)
+{
+	TArray<TSharedPtr<FJsonValue>> Params;
+	Params.Add(MakeShareable(new FJsonValueString(Digest)));
+	Params.Add(MakeShareable(new FJsonValueNumberString(FUtil::UInt32ToFString(Count))));
+	const FJsonRpcRequest Request(TEXT("sui_getEventsByTransaction"), Params);
+	SendRequest(Request, SuccessDelegate);
+}
+
 void FRpcClient::SendRequest(const FJsonRpcRequest& Request, const FRpcSuccessDelegate& SuccessDelegate, const FRpcErrorDelegate& ErrorDelegate)
 {
 	const TSharedPtr<FJsonObject> JsonRequestObject = FJsonObjectConverter::UStructToJsonObject(Request);
@@ -110,8 +176,8 @@ void FRpcClient::SendRequest(const FJsonRpcRequest& Request, const FRpcSuccessDe
 	FString OutputString;
 	const TSharedRef<TJsonWriter<>> JsonWriter = TJsonWriterFactory<>::Create(&OutputString);
 	FJsonSerializer::Serialize(JsonRequestObject.ToSharedRef(), JsonWriter);
-
-	UE_LOG(LogSuiUnrealSDKCore, Verbose, TEXT("%s"), *OutputString);
+	
+	UE_LOG(LogSuiUnrealSDKCore, Verbose, TEXT("Request Body: %s"), *OutputString);
 
 	const TSharedRef<IHttpRequest, ESPMode::ThreadSafe> HttpRequest = FHttpModule::Get().CreateRequest();
 	HttpRequest->SetVerb("POST");
