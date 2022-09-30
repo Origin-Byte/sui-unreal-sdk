@@ -141,3 +141,69 @@ void USuiUnrealSDKCoreBPLibrary::GenerateMnemonic(FString& Mnemonic)
 {
 	FBip39UEModule::Get().GenerateMnemonic(Mnemonic);
 }
+
+void USuiUnrealSDKCoreBPLibrary::GetEventsByModule(const FString& Endpoint, const FString& PackageId, const FString& ModuleName, FKeshUInt32 Count, FKeshUInt64 StartTime, FKeshUInt64 EndTime, const FRpcResultReceivedDelegate& OnResultReceived)
+{
+	auto Client = FRpcClient(Endpoint);
+	FRpcSuccessDelegate RpcSuccessDelegate;
+	RpcSuccessDelegate.BindLambda([OnResultReceived](const FJsonRpcValidResponse& RpcResponse) {
+		const auto VaJsonValue = GEngine->GetEngineSubsystem<UVaRestSubsystem>()->ConstructJsonValue(RpcResponse.Result);
+		OnResultReceived.ExecuteIfBound(VaJsonValue);
+		});
+	Client.GetEventsByModule(PackageId, ModuleName, Count.Value, StartTime.Value, EndTime.Value, RpcSuccessDelegate);
+}
+
+void USuiUnrealSDKCoreBPLibrary::GetEventsByMoveEventStructName(const FString& Endpoint, const FString& MoveEventStructName, FKeshUInt32 Count, FKeshUInt64 StartTime, FKeshUInt64 EndTime, const FRpcResultReceivedDelegate& OnResultReceived)
+{
+	auto Client = FRpcClient(Endpoint);
+	FRpcSuccessDelegate RpcSuccessDelegate;
+	RpcSuccessDelegate.BindLambda([OnResultReceived](const FJsonRpcValidResponse& RpcResponse) {
+		const auto VaJsonValue = GEngine->GetEngineSubsystem<UVaRestSubsystem>()->ConstructJsonValue(RpcResponse.Result);
+		OnResultReceived.ExecuteIfBound(VaJsonValue);
+		});
+	Client.GetEventsByMoveEventStructName(MoveEventStructName, Count.Value, StartTime.Value, EndTime.Value, RpcSuccessDelegate);
+}
+
+void USuiUnrealSDKCoreBPLibrary::GetEventsByObject(const FString& Endpoint, const FString& ObjectId, FKeshUInt32 Count, FKeshUInt64 StartTime, FKeshUInt64 EndTime, const FRpcResultReceivedDelegate& OnResultReceived)
+{
+	auto Client = FRpcClient(Endpoint);
+	FRpcSuccessDelegate RpcSuccessDelegate;
+	RpcSuccessDelegate.BindLambda([OnResultReceived](const FJsonRpcValidResponse& RpcResponse) {
+		const auto VaJsonValue = GEngine->GetEngineSubsystem<UVaRestSubsystem>()->ConstructJsonValue(RpcResponse.Result);
+		OnResultReceived.ExecuteIfBound(VaJsonValue);
+		});
+	Client.GetEventsByObject(ObjectId, Count.Value, StartTime.Value, EndTime.Value, RpcSuccessDelegate);
+}
+
+void USuiUnrealSDKCoreBPLibrary::GetEventsBySender(const FString& Endpoint, const FString& SenderAddress, FKeshUInt32 Count, FKeshUInt64 StartTime, FKeshUInt64 EndTime, const FRpcResultReceivedDelegate& OnResultReceived)
+{
+	auto Client = FRpcClient(Endpoint);
+	FRpcSuccessDelegate RpcSuccessDelegate;
+	RpcSuccessDelegate.BindLambda([OnResultReceived](const FJsonRpcValidResponse& RpcResponse) {
+		const auto VaJsonValue = GEngine->GetEngineSubsystem<UVaRestSubsystem>()->ConstructJsonValue(RpcResponse.Result);
+		OnResultReceived.ExecuteIfBound(VaJsonValue);
+		});
+	Client.GetEventsBySender(SenderAddress, Count.Value, StartTime.Value, EndTime.Value, RpcSuccessDelegate);
+}
+
+void USuiUnrealSDKCoreBPLibrary::GetEventsByTimeRange(const FString& Endpoint, FKeshUInt32 Count, FKeshUInt64 StartTime, FKeshUInt64 EndTime, const FRpcResultReceivedDelegate& OnResultReceived)
+{
+	auto Client = FRpcClient(Endpoint);
+	FRpcSuccessDelegate RpcSuccessDelegate;
+	RpcSuccessDelegate.BindLambda([OnResultReceived](const FJsonRpcValidResponse& RpcResponse) {
+		const auto VaJsonValue = GEngine->GetEngineSubsystem<UVaRestSubsystem>()->ConstructJsonValue(RpcResponse.Result);
+		OnResultReceived.ExecuteIfBound(VaJsonValue);
+		});
+	Client.GetEventsByTimeRange(Count.Value, StartTime.Value, EndTime.Value, RpcSuccessDelegate);
+}
+
+void USuiUnrealSDKCoreBPLibrary::GetEventsByTransaction(const FString& Endpoint, const FString& Digest, FKeshUInt32 Count, const FRpcResultReceivedDelegate& OnResultReceived)
+{
+	auto Client = FRpcClient(Endpoint);
+	FRpcSuccessDelegate RpcSuccessDelegate;
+	RpcSuccessDelegate.BindLambda([OnResultReceived](const FJsonRpcValidResponse& RpcResponse) {
+		const auto VaJsonValue = GEngine->GetEngineSubsystem<UVaRestSubsystem>()->ConstructJsonValue(RpcResponse.Result);
+		OnResultReceived.ExecuteIfBound(VaJsonValue);
+		});
+	Client.GetEventsByTransaction(Digest, Count.Value, RpcSuccessDelegate);
+}
