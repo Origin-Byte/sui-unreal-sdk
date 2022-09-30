@@ -7,7 +7,8 @@ Connecting Unreal game developers to Sui blockchain and Origin Byte's NFT ecosys
 	- Get SUI objects
 	- Call Sui Move contracts
 	- Sign and Execute Transactions
-- Restore Ed25519 Keypairs from BIP39 mnemonics
+	- Get Historical Event Data (WIP)
+- Restore Ed25519 Keypairs from BIP39 mnemonics and Create new Keypairs
 - Tested on Windows desktop with Sui version 0.10.0
 - Works with Unreal Engine 5
 
