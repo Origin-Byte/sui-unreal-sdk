@@ -68,7 +68,7 @@ public:
 
 	// The low value is the first 31 bits. The high mid value is bits 32 to 62. The high value is the last 2 bits.
 	UFUNCTION( Category = "Kesh|UE4 Fundamental Types", BlueprintPure, DisplayName = "Create UInt 64 Full" )
-	static FKeshInt64 CreateUInt64Full( int32 Low, int32 Mid, uint8 High )
+	static FKeshUInt64 CreateUInt64Full( int32 Low, int32 Mid, uint8 High )
 	{
 		return static_cast< uint64 >( Low > 0 ? Low : 0 ) +
 			( static_cast< uint64 >( Mid > 0 ? Mid : 0 ) << 31 ) +
