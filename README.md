@@ -37,6 +37,8 @@ C++:
 	});
 	Client.GetObject(ObjectId, RpcSuccessDelegate);
 ```
+## RPC Historical Event Read API
+![Historical Event Read API Blueprints](/imgs/event_read_api_nodes.png "Historical Event Read API Blueprints")
 
 ## Transaction API
 ![Transaction API Blueprints](/imgs/transaction_api_nodes.png "Transaction API Blueprints")
