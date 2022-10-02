@@ -24,7 +24,7 @@ void USuiUnrealSDKCoreBPLibrary::GetTotalTransactionNumber(const FString& Endpoi
 	Client.GetTotalTransactionNumber(RpcSuccessDelegate);
 }
 
-void USuiUnrealSDKCoreBPLibrary::GetRecentTransactions(const FString& Endpoint, FKeshUInt64 Count, const FRpcResultReceivedDelegate& OnResult)
+void USuiUnrealSDKCoreBPLibrary::GetRecentTransactions(const FString& Endpoint, int64 Count, const FRpcResultReceivedDelegate& OnResult)
 {
 	auto Client = FRpcClient(Endpoint);
 	FRpcSuccessDelegate RpcSuccessDelegate;
@@ -32,7 +32,7 @@ void USuiUnrealSDKCoreBPLibrary::GetRecentTransactions(const FString& Endpoint, 
 		const auto VaJsonValue = GEngine->GetEngineSubsystem<UVaRestSubsystem>()->ConstructJsonValue(RpcResponse.Result);
 		OnResult.ExecuteIfBound(VaJsonValue);
 		});
-	Client.GetRecentTransactions(Count.Value, RpcSuccessDelegate);
+	Client.GetRecentTransactions(Count, RpcSuccessDelegate);
 }
 
 void USuiUnrealSDKCoreBPLibrary::GetTransaction(const FString& Endpoint, const FString& Digest, const FRpcResultReceivedDelegate& OnResult)
@@ -46,7 +46,7 @@ void USuiUnrealSDKCoreBPLibrary::GetTransaction(const FString& Endpoint, const F
 	Client.GetTransaction(Digest, RpcSuccessDelegate);
 }
 
-void USuiUnrealSDKCoreBPLibrary::GetTransactionsInRange(const FString& Endpoint, FKeshUInt64 Start, FKeshUInt64 End, const FRpcResultReceivedDelegate& OnResult)
+void USuiUnrealSDKCoreBPLibrary::GetTransactionsInRange(const FString& Endpoint, int64 Start, int64 End, const FRpcResultReceivedDelegate& OnResult)
 {
 	auto Client = FRpcClient(Endpoint);
 	FRpcSuccessDelegate RpcSuccessDelegate;
@@ -54,7 +54,7 @@ void USuiUnrealSDKCoreBPLibrary::GetTransactionsInRange(const FString& Endpoint,
 		const auto VaJsonValue = GEngine->GetEngineSubsystem<UVaRestSubsystem>()->ConstructJsonValue(RpcResponse.Result);
 		OnResult.ExecuteIfBound(VaJsonValue);
 		});
-	Client.GetTransactionsInRange(Start.Value, End.Value, RpcSuccessDelegate);
+	Client.GetTransactionsInRange(Start, End, RpcSuccessDelegate);
 }
 
 void USuiUnrealSDKCoreBPLibrary::GetObject(const FString& Endpoint, const FString& ObjectId, const FRpcResultReceivedDelegate& OnResult)
@@ -91,7 +91,7 @@ void USuiUnrealSDKCoreBPLibrary::GetObjectsOwnedByObject(const FString& Endpoint
 }
 
 void USuiUnrealSDKCoreBPLibrary::MoveCall(const FString& Endpoint, const FString& Signer, const FString& PackageObjectId, const FString& Module, const FString& Function,
-		const TArray<FString>& TypeArguments, const TArray<UVaRestJsonValue*> Arguments, const FString& Gas, FKeshUInt64 GasBudget, const FRpcResultReceivedDelegate& OnResult)
+		const TArray<FString>& TypeArguments, const TArray<UVaRestJsonValue*> Arguments, const FString& Gas, int64 GasBudget, const FRpcResultReceivedDelegate& OnResult)
 {
 	auto Client = FRpcClient(Endpoint);
 	FRpcSuccessDelegate RpcSuccessDelegate;
@@ -142,7 +142,7 @@ void USuiUnrealSDKCoreBPLibrary::GenerateMnemonic(FString& Mnemonic)
 	FBip39UEModule::Get().GenerateMnemonic(Mnemonic);
 }
 
-void USuiUnrealSDKCoreBPLibrary::GetEventsByModule(const FString& Endpoint, const FString& PackageId, const FString& ModuleName, FKeshUInt32 Count, FKeshUInt64 StartTime, FKeshUInt64 EndTime, const FRpcResultReceivedDelegate& OnResultReceived)
+void USuiUnrealSDKCoreBPLibrary::GetEventsByModule(const FString& Endpoint, const FString& PackageId, const FString& ModuleName, int32 Count, int64 StartTime, int64 EndTime, const FRpcResultReceivedDelegate& OnResultReceived)
 {
 	auto Client = FRpcClient(Endpoint);
 	FRpcSuccessDelegate RpcSuccessDelegate;
@@ -150,10 +150,10 @@ void USuiUnrealSDKCoreBPLibrary::GetEventsByModule(const FString& Endpoint, cons
 		const auto VaJsonValue = GEngine->GetEngineSubsystem<UVaRestSubsystem>()->ConstructJsonValue(RpcResponse.Result);
 		OnResultReceived.ExecuteIfBound(VaJsonValue);
 		});
-	Client.GetEventsByModule(PackageId, ModuleName, Count.Value, StartTime.Value, EndTime.Value, RpcSuccessDelegate);
+	Client.GetEventsByModule(PackageId, ModuleName, Count, StartTime, EndTime, RpcSuccessDelegate);
 }
 
-void USuiUnrealSDKCoreBPLibrary::GetEventsByMoveEventStructName(const FString& Endpoint, const FString& MoveEventStructName, FKeshUInt32 Count, FKeshUInt64 StartTime, FKeshUInt64 EndTime, const FRpcResultReceivedDelegate& OnResultReceived)
+void USuiUnrealSDKCoreBPLibrary::GetEventsByMoveEventStructName(const FString& Endpoint, const FString& MoveEventStructName, int32 Count, int64 StartTime, int64 EndTime, const FRpcResultReceivedDelegate& OnResultReceived)
 {
 	auto Client = FRpcClient(Endpoint);
 	FRpcSuccessDelegate RpcSuccessDelegate;
@@ -161,10 +161,10 @@ void USuiUnrealSDKCoreBPLibrary::GetEventsByMoveEventStructName(const FString& E
 		const auto VaJsonValue = GEngine->GetEngineSubsystem<UVaRestSubsystem>()->ConstructJsonValue(RpcResponse.Result);
 		OnResultReceived.ExecuteIfBound(VaJsonValue);
 		});
-	Client.GetEventsByMoveEventStructName(MoveEventStructName, Count.Value, StartTime.Value, EndTime.Value, RpcSuccessDelegate);
+	Client.GetEventsByMoveEventStructName(MoveEventStructName, Count, StartTime, EndTime, RpcSuccessDelegate);
 }
 
-void USuiUnrealSDKCoreBPLibrary::GetEventsByObject(const FString& Endpoint, const FString& ObjectId, FKeshUInt32 Count, FKeshUInt64 StartTime, FKeshUInt64 EndTime, const FRpcResultReceivedDelegate& OnResultReceived)
+void USuiUnrealSDKCoreBPLibrary::GetEventsByObject(const FString& Endpoint, const FString& ObjectId, int32 Count, int64 StartTime, int64 EndTime, const FRpcResultReceivedDelegate& OnResultReceived)
 {
 	auto Client = FRpcClient(Endpoint);
 	FRpcSuccessDelegate RpcSuccessDelegate;
@@ -172,10 +172,10 @@ void USuiUnrealSDKCoreBPLibrary::GetEventsByObject(const FString& Endpoint, cons
 		const auto VaJsonValue = GEngine->GetEngineSubsystem<UVaRestSubsystem>()->ConstructJsonValue(RpcResponse.Result);
 		OnResultReceived.ExecuteIfBound(VaJsonValue);
 		});
-	Client.GetEventsByObject(ObjectId, Count.Value, StartTime.Value, EndTime.Value, RpcSuccessDelegate);
+	Client.GetEventsByObject(ObjectId, Count, StartTime, EndTime, RpcSuccessDelegate);
 }
 
-void USuiUnrealSDKCoreBPLibrary::GetEventsBySender(const FString& Endpoint, const FString& SenderAddress, FKeshUInt32 Count, FKeshUInt64 StartTime, FKeshUInt64 EndTime, const FRpcResultReceivedDelegate& OnResultReceived)
+void USuiUnrealSDKCoreBPLibrary::GetEventsBySender(const FString& Endpoint, const FString& SenderAddress, int32 Count, int64 StartTime, int64 EndTime, const FRpcResultReceivedDelegate& OnResultReceived)
 {
 	auto Client = FRpcClient(Endpoint);
 	FRpcSuccessDelegate RpcSuccessDelegate;
@@ -183,10 +183,10 @@ void USuiUnrealSDKCoreBPLibrary::GetEventsBySender(const FString& Endpoint, cons
 		const auto VaJsonValue = GEngine->GetEngineSubsystem<UVaRestSubsystem>()->ConstructJsonValue(RpcResponse.Result);
 		OnResultReceived.ExecuteIfBound(VaJsonValue);
 		});
-	Client.GetEventsBySender(SenderAddress, Count.Value, StartTime.Value, EndTime.Value, RpcSuccessDelegate);
+	Client.GetEventsBySender(SenderAddress, Count, StartTime, EndTime, RpcSuccessDelegate);
 }
 
-void USuiUnrealSDKCoreBPLibrary::GetEventsByTimeRange(const FString& Endpoint, FKeshUInt32 Count, FKeshUInt64 StartTime, FKeshUInt64 EndTime, const FRpcResultReceivedDelegate& OnResultReceived)
+void USuiUnrealSDKCoreBPLibrary::GetEventsByTimeRange(const FString& Endpoint, int32 Count, int64 StartTime, int64 EndTime, const FRpcResultReceivedDelegate& OnResultReceived)
 {
 	auto Client = FRpcClient(Endpoint);
 	FRpcSuccessDelegate RpcSuccessDelegate;
@@ -194,10 +194,10 @@ void USuiUnrealSDKCoreBPLibrary::GetEventsByTimeRange(const FString& Endpoint, F
 		const auto VaJsonValue = GEngine->GetEngineSubsystem<UVaRestSubsystem>()->ConstructJsonValue(RpcResponse.Result);
 		OnResultReceived.ExecuteIfBound(VaJsonValue);
 		});
-	Client.GetEventsByTimeRange(Count.Value, StartTime.Value, EndTime.Value, RpcSuccessDelegate);
+	Client.GetEventsByTimeRange(Count, StartTime, EndTime, RpcSuccessDelegate);
 }
 
-void USuiUnrealSDKCoreBPLibrary::GetEventsByTransaction(const FString& Endpoint, const FString& Digest, FKeshUInt32 Count, const FRpcResultReceivedDelegate& OnResultReceived)
+void USuiUnrealSDKCoreBPLibrary::GetEventsByTransaction(const FString& Endpoint, const FString& Digest, int32 Count, const FRpcResultReceivedDelegate& OnResultReceived)
 {
 	auto Client = FRpcClient(Endpoint);
 	FRpcSuccessDelegate RpcSuccessDelegate;
@@ -205,5 +205,5 @@ void USuiUnrealSDKCoreBPLibrary::GetEventsByTransaction(const FString& Endpoint,
 		const auto VaJsonValue = GEngine->GetEngineSubsystem<UVaRestSubsystem>()->ConstructJsonValue(RpcResponse.Result);
 		OnResultReceived.ExecuteIfBound(VaJsonValue);
 		});
-	Client.GetEventsByTransaction(Digest, Count.Value, RpcSuccessDelegate);
+	Client.GetEventsByTransaction(Digest, Count, RpcSuccessDelegate);
 }

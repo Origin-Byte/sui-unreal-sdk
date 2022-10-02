@@ -26,7 +26,6 @@ public class SuiUnrealSDKCore : ModuleRules
 				"HTTP",
 				"Json",
                 "JsonUtilities",
-				"KeshUE4FundamentalTypeWrapperPlugin",
                 "VaRest",
                 "LibsodiumUE",
                 "Bip39UE"
