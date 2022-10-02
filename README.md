@@ -57,8 +57,8 @@ Sign And Execute Transactions:
 ## Wallet API
 ![Wallet API Blueprints](/imgs/crypto_helpers_nodes.png "Wallet API Blueprints")
 
-# Copy paste Blueprint Nodes
-[Copy paste Blueprint Nodes](https://blueprintue.com/blueprint/k30t8ebp/)
+# Copy paste ready Blueprint Nodes
+[Copy paste ready Blueprint Nodes](https://blueprintue.com/blueprint/5ws63prc/)
 
 # Dependencies
 The SDK Plugin currently depends on the [VaRest](https://www.unrealengine.com/marketplace/en-US/product/varest-plugin) plugin available from the marketplace.
