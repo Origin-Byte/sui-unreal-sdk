@@ -7,7 +7,7 @@ Connecting Unreal game developers to Sui blockchain and Origin Byte's NFT ecosys
 	- Get SUI objects
 	- Call Sui Move contracts
 	- Sign and Execute Transactions
-	- Get Historical Event Data (WIP)
+	- Get Historical Event Data
 - Restore Ed25519 Keypairs from BIP39 mnemonics and Create new Keypairs
 - Tested on Windows desktop with Sui version 0.10.0
 - Works with Unreal Engine 5
@@ -18,7 +18,10 @@ Check the Sample Level and the Blueprint Nodes in the Level Blueprint.
 The SuiUnrealSDKCore module contains all the high level functionalities. Both C++ and Blueprints are supported.
 
 ## How to use it in your project
-Install [VaRest](https://www.unrealengine.com/marketplace/en-US/product/varest-plugin) Plugin from the Marketplace, and copy all plugins found in the Plugins folder (Bip39UE, KeshUE4FundamentalTypeWrapperPlugin, LibsodiumUE, SuiUnrealSDKCore )
+Install [VaRest](https://www.unrealengine.com/marketplace/en-US/product/varest-plugin) Plugin from the Marketplace, and copy all plugins found in the Plugins folder (Bip39UE, LibsodiumUE, SuiUnrealSDKCore )
+
+## Notice
+Because of the limitations of Blueprints, sui JSON API method signatures use signed integer types instead of unsigned counterparts (int32 and int64 types instead of uint32 and uint64). For most use cases we believe they provide sufficient range of values. If you run into problems, please open an issue on GitHub.
 
 # Usage Samples
 ## RPC Read API
@@ -53,7 +56,6 @@ Sign And Execute Transactions:
 
 ## Wallet API
 ![Wallet API Blueprints](/imgs/crypto_helpers_nodes.png "Wallet API Blueprints")
-
 
 # Copy paste Blueprint Nodes
 [Copy paste Blueprint Nodes](https://blueprintue.com/blueprint/k30t8ebp/)
