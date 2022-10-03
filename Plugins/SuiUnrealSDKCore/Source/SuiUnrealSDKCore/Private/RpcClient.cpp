@@ -103,10 +103,122 @@ void FRpcClient::ExecuteTransaction(const FString& TxBytes, const FString& Signa
 	SendRequest(Request, SuccessDelegate);
 }
 
+void FRpcClient::TransferObject(const FString& Signer, const FString& ObjectId, const FString& Gas, uint64 GasBudget, const FString& Recipient, const FRpcSuccessDelegate& SuccessDelegate)
+{
+	TArray<TSharedPtr<FJsonValue>> Params;
+	Params.Add(MakeShareable(new FJsonValueString(Signer)));
+	Params.Add(MakeShareable(new FJsonValueString(ObjectId)));
+	Params.Add(MakeShareable(new FJsonValueString(Gas)));
+	Params.Add(MakeShareable(new FJsonValueNumberString(FUtil::UInt64ToFString(GasBudget))));
+	Params.Add(MakeShareable(new FJsonValueString(Recipient)));
+
+	const FJsonRpcRequest Request(TEXT("sui_transferObject"), Params);
+	SendRequest(Request, SuccessDelegate);
+}
+
+void FRpcClient::TransferSui(const FString& Signer, const FString& SuiObjectId, uint64 GasBudget, const FString& Recipient, uint64 Amount, const FRpcSuccessDelegate& SuccessDelegate)
+{
+	TArray<TSharedPtr<FJsonValue>> Params;
+	Params.Add(MakeShareable(new FJsonValueString(Signer)));
+	Params.Add(MakeShareable(new FJsonValueString(SuiObjectId)));
+	Params.Add(MakeShareable(new FJsonValueNumberString(FUtil::UInt64ToFString(GasBudget))));
+	Params.Add(MakeShareable(new FJsonValueString(Recipient)));
+	Params.Add(MakeShareable(new FJsonValueNumberString(FUtil::UInt64ToFString(Amount))));
+
+	const FJsonRpcRequest Request(TEXT("sui_transferSui"), Params);
+	SendRequest(Request, SuccessDelegate);
+}
+
+void FRpcClient::BatchTransaction(const FString& Signer, const TArray<TSharedPtr<FJsonValue>> SingleTransactionParams, const FString& Gas, uint64 GasBudget, const FRpcSuccessDelegate& SuccessDelegate)
+{
+	TArray<TSharedPtr<FJsonValue>> Params;
+	Params.Add(MakeShareable(new FJsonValueString(Signer)));
+	Params.Add(MakeShareable(new FJsonValueArray(SingleTransactionParams)));
+	Params.Add(MakeShareable(new FJsonValueString(Gas)));
+	Params.Add(MakeShareable(new FJsonValueNumberString(FUtil::UInt64ToFString(GasBudget))));
+	
+	const FJsonRpcRequest Request(TEXT("sui_batchTransaction"), Params);
+	SendRequest(Request, SuccessDelegate);
+}
+
+void FRpcClient::Pay(const FString& Signer, const TArray<FString>& InputCoinObjectIds, const TArray<FString>& Recipients, const TArray<uint64>& Amounts, const FString& Gas, uint64 GasBudget, const FRpcSuccessDelegate& SuccessDelegate)
+{
+	TArray<TSharedPtr<FJsonValue>> InputCoinJsonValues;
+	for(auto Id : InputCoinObjectIds)
+	{
+		InputCoinJsonValues.Add(MakeShareable(new FJsonValueString(Id)));
+	}
+
+	TArray<TSharedPtr<FJsonValue>> RecipientsJsonValues;
+	for(auto Recipient : Recipients)
+	{
+		RecipientsJsonValues.Add(MakeShareable(new FJsonValueString(Recipient)));
+	}
+
+	TArray<TSharedPtr<FJsonValue>> AmountsJsonValues;
+	for(const auto Amount : Amounts)
+	{
+		AmountsJsonValues.Add(MakeShareable(new FJsonValueNumberString(FUtil::UInt64ToFString(Amount))));
+	}
+	
+	TArray<TSharedPtr<FJsonValue>> Params;
+	Params.Add(MakeShareable(new FJsonValueString(Signer)));
+	Params.Add(MakeShareable(new FJsonValueArray(InputCoinJsonValues)));
+	Params.Add(MakeShareable(new FJsonValueArray(RecipientsJsonValues)));
+	Params.Add(MakeShareable(new FJsonValueString(Gas)));
+	Params.Add(MakeShareable(new FJsonValueNumberString(FUtil::UInt64ToFString(GasBudget))));
+	
+	const FJsonRpcRequest Request(TEXT("sui_pay"), Params);
+	SendRequest(Request, SuccessDelegate);
+}
+
+void FRpcClient::SplitCoin(const FString& Signer, const FString& CoinObjectId, const TArray<uint64>& SplitAmounts, const FString& Gas, uint64 GasBudget, const FRpcSuccessDelegate& SuccessDelegate)
+{
+	TArray<TSharedPtr<FJsonValue>> AmountsJsonValues;
+	for(const auto Amount : SplitAmounts)
+	{
+		AmountsJsonValues.Add(MakeShareable(new FJsonValueNumberString(FUtil::UInt64ToFString(Amount))));
+	}
+	
+	TArray<TSharedPtr<FJsonValue>> Params;
+	Params.Add(MakeShareable(new FJsonValueString(Signer)));
+	Params.Add(MakeShareable(new FJsonValueString(CoinObjectId)));
+	Params.Add(MakeShareable(new FJsonValueArray(AmountsJsonValues)));
+	Params.Add(MakeShareable(new FJsonValueString(Gas)));
+	Params.Add(MakeShareable(new FJsonValueNumberString(FUtil::UInt64ToFString(GasBudget))));
+	
+	const FJsonRpcRequest Request(TEXT("sui_splitCoin"), Params);
+	SendRequest(Request, SuccessDelegate);
+}
+
+void FRpcClient::SplitCoinEqual(const FString& Signer, const FString& CoinObjectId, const uint64 SplitCount, const FString& Gas, uint64 GasBudget, const FRpcSuccessDelegate& SuccessDelegate)
+{
+	TArray<TSharedPtr<FJsonValue>> Params;
+	Params.Add(MakeShareable(new FJsonValueString(Signer)));
+	Params.Add(MakeShareable(new FJsonValueString(CoinObjectId)));
+	Params.Add(MakeShareable(new FJsonValueNumberString(FUtil::UInt64ToFString(SplitCount))));
+	Params.Add(MakeShareable(new FJsonValueString(Gas)));
+	Params.Add(MakeShareable(new FJsonValueNumberString(FUtil::UInt64ToFString(GasBudget))));
+	
+	const FJsonRpcRequest Request(TEXT("sui_splitCoinEqual"), Params);
+	SendRequest(Request, SuccessDelegate);
+}
+
+void FRpcClient::MergeCoins(const FString& Signer, const FString& PrimaryCoinId, const FString& CoinToMerge, const FString& Gas, uint64 GasBudget, const FRpcSuccessDelegate& SuccessDelegate)
+{
+	TArray<TSharedPtr<FJsonValue>> Params;
+	Params.Add(MakeShareable(new FJsonValueString(Signer)));
+	Params.Add(MakeShareable(new FJsonValueString(PrimaryCoinId)));
+	Params.Add(MakeShareable(new FJsonValueString(CoinToMerge)));
+	Params.Add(MakeShareable(new FJsonValueString(Gas)));
+	Params.Add(MakeShareable(new FJsonValueNumberString(FUtil::UInt64ToFString(GasBudget))));
+	
+	const FJsonRpcRequest Request(TEXT("sui_mergeCoins"), Params);
+	SendRequest(Request, SuccessDelegate);
+}
+
 void FRpcClient::GetEventsByModule(const FString& PackageId, const FString& ModuleName, uint32 Count, uint64 StartTime, uint64 EndTime, const FRpcSuccessDelegate& SuccessDelegate)
 {
-	UE_LOG(LogSuiUnrealSDKCore, Verbose, TEXT("GetEventsByModule. EndTime: %s"), *FUtil::UInt64ToFString(EndTime));
-	
 	TArray<TSharedPtr<FJsonValue>> Params;
 	Params.Add(MakeShareable(new FJsonValueString(PackageId)));
 	Params.Add(MakeShareable(new FJsonValueString(ModuleName)));
