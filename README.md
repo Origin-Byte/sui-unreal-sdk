@@ -6,7 +6,8 @@ Connecting Unreal game developers to Sui blockchain and Origin Byte's NFT ecosys
 - For Rpc clients’ direct interaction with the Sui JSON-RPC https://docs.sui.io/sui-jsonrpc
 	- Get SUI objects
 	- Call Sui Move contracts
-	- Sign and Execute Transactions
+	- Sign, Batch and Execute Transactions,
+	- Transfer, Split and Merge SUI coins and objects
 	- Get Historical Event Data
 - Restore Ed25519 Keypairs from BIP39 mnemonics and Create new Keypairs
 - Tested on Windows desktop with Sui version 0.10.0
@@ -54,11 +55,11 @@ Sign And Execute Transactions:
 
 ![Sign And Execute Transactions](/imgs/sign_execute_transaction.png "Sign And Execute Transactions")
 
-## Wallet API
-![Wallet API Blueprints](/imgs/crypto_helpers_nodes.png "Wallet API Blueprints")
+## Crypto Helper API
+![Crypto Helper API Blueprints](/imgs/crypto_helpers_nodes.png "Crypto Helper API Blueprints")
 
 # Copy paste ready Blueprint Nodes
-[Copy paste ready Blueprint Nodes](https://blueprintue.com/blueprint/5ws63prc/)
+[Copy paste ready Blueprint Nodes](https://blueprintue.com/blueprint/wcm2f6op/)
 
 # Dependencies
 The SDK Plugin currently depends on the [VaRest](https://www.unrealengine.com/marketplace/en-US/product/varest-plugin) plugin available from the marketplace.
@@ -70,5 +71,5 @@ All the other Dependencies can be found in the Plugins folder.
 - More RPC APIs and type bindings
 - WalletConnect support
 - More samples
-- Origin-Byte NFT ecosystem access from Unity
+- Origin-Byte NFT ecosystem access from Unreal Engine
 - Higher level APIs, easy-to-use Blueprint nodes
