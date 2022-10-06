@@ -37,11 +37,32 @@ class USuiUnrealSDKCoreBPLibrary : public UBlueprintFunctionLibrary
 
 	UFUNCTION(BlueprintCallable, Category = "Sui | Transaction")
 	static void MoveCall(const FString& Endpoint, const FString& Signer, const FString& PackageObjectId, const FString& Module, const FString& Function,
-	const TArray<FString>& TypeArguments, const TArray<UVaRestJsonValue*> Arguments, const FString& Gas, int64 GasBudget, const FRpcResultReceivedDelegate& OnResult);
+		const TArray<FString>& TypeArguments, const TArray<UVaRestJsonValue*>& Arguments, const FString& Gas, int64 GasBudget, const FRpcResultReceivedDelegate& OnResult);
 	
 	UFUNCTION(BlueprintCallable, Category = "Sui | Transaction")
 	static void SignAndExecuteTransaction(const FString& Endpoint, const FString& TxBytes, const FEd25519KeyPair KeyPair, const FRpcResultReceivedDelegate& OnResult);
 
+	UFUNCTION(BlueprintCallable, Category = "Sui | Transaction")
+	static void TransferObject(const FString& Endpoint, const FString& Signer, const FString& ObjectId, const FString& Gas, int64 GasBudget, const FString& Recipient, const FRpcResultReceivedDelegate& OnResultReceived);
+	
+	UFUNCTION(BlueprintCallable, Category = "Sui | Transaction")
+	static void TransferSui(const FString& Endpoint, const FString& Signer, const FString& SuiObjectId, int64 GasBudget, const FString& Recipient, int64 Amount, const FRpcResultReceivedDelegate& OnResultReceived);
+
+	UFUNCTION(BlueprintCallable, Category = "Sui | Transaction")
+	static void BatchTransaction(const FString& Endpoint, const FString& Signer, const TArray<UVaRestJsonValue*>& SingleTransactionParams, const FString& Gas, int64 GasBudget, const FRpcResultReceivedDelegate& OnResultReceived);
+
+	UFUNCTION(BlueprintCallable, Category = "Sui | Transaction")
+	static void Pay(const FString& Endpoint, const FString& Signer, const TArray<FString>& InputCoinObjectIds, const TArray<FString>& Recipients, const TArray<int64>& Amounts, const FString& Gas, int64 GasBudget, const FRpcResultReceivedDelegate& OnResultReceived);
+
+	UFUNCTION(BlueprintCallable, Category = "Sui | Transaction")
+	static void SplitCoin(const FString& Endpoint, const FString& Signer, const FString& CoinObjectId, const TArray<int64>& SplitAmounts, const FString& Gas, int64 GasBudget, const FRpcResultReceivedDelegate& OnResultReceived);
+
+	UFUNCTION(BlueprintCallable, Category = "Sui | Transaction")
+	static void SplitCoinEqual(const FString& Endpoint, const FString& Signer, const FString& CoinObjectId, const int64 SplitCount, const FString& Gas, int64 GasBudget, const FRpcResultReceivedDelegate& OnResultReceived);
+
+	UFUNCTION(BlueprintCallable, Category = "Sui | Transaction")
+	static void MergeCoins(const FString& Endpoint, const FString& Signer, const FString& PrimaryCoinId, const FString& CoinToMerge, const FString& Gas, int64 GasBudget, const FRpcResultReceivedDelegate& OnResultReceived);
+	
 	UFUNCTION(BlueprintCallable, Category = "Sui | Crypto")
 	static void CreateKeypairFromMnemonic(FEd25519KeyPair& KeyPair, const FString& Mnemonic);
 

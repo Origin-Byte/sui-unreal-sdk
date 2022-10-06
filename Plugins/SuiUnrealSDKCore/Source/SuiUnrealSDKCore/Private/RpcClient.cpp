@@ -70,7 +70,7 @@ void FRpcClient::GetObjectsOwnedByObject(const FString& ObjectId, const FRpcSucc
 }
 
 void FRpcClient::MoveCall(const FString& Signer, const FString& PackageObjectId, const FString& Module, const FString& Function,
-		const TArray<FString>& TypeArguments, const TArray<TSharedPtr<FJsonValue>> Arguments, const FString& Gas, uint64 GasBudget, const FRpcSuccessDelegate& SuccessDelegate)
+		const TArray<FString>& TypeArguments, const TArray<TSharedPtr<FJsonValue>>& Arguments, const FString& Gas, uint64 GasBudget, const FRpcSuccessDelegate& SuccessDelegate)
 {
 	TArray<TSharedPtr<FJsonValue>> TypeArgumentJsonValues;
 	for(auto TypeArg : TypeArguments)
@@ -129,7 +129,7 @@ void FRpcClient::TransferSui(const FString& Signer, const FString& SuiObjectId, 
 	SendRequest(Request, SuccessDelegate);
 }
 
-void FRpcClient::BatchTransaction(const FString& Signer, const TArray<TSharedPtr<FJsonValue>> SingleTransactionParams, const FString& Gas, uint64 GasBudget, const FRpcSuccessDelegate& SuccessDelegate)
+void FRpcClient::BatchTransaction(const FString& Signer, const TArray<TSharedPtr<FJsonValue>>& SingleTransactionParams, const FString& Gas, uint64 GasBudget, const FRpcSuccessDelegate& SuccessDelegate)
 {
 	TArray<TSharedPtr<FJsonValue>> Params;
 	Params.Add(MakeShareable(new FJsonValueString(Signer)));
