@@ -9,6 +9,7 @@ class BIP39UE_API FBip39UEModule : public IModuleInterface
 public:
 	int32 MnemonicToSeed(TArray<uint8>& OutSeed, const FString& Mnemonic, const FString& Password);
 	void GenerateMnemonic(FString& OutMnemonic);
+	void DeriveKeyFromMnemonic(const FString& Mnemonic);
 	
 	/** IModuleInterface implementation */
 	virtual void StartupModule() override;

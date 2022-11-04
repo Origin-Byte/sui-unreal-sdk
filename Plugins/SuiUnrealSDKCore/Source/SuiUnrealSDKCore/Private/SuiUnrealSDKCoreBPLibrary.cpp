@@ -230,6 +230,7 @@ void USuiUnrealSDKCoreBPLibrary::CreateKeypairFromMnemonic(FEd25519KeyPair& KeyP
 {
 	TArray<uint8> Seed;
 	// TODO validation
+	FBip39UEModule::Get().DeriveKeyFromMnemonic(Mnemonic);
 	FBip39UEModule::Get().MnemonicToSeed(Seed, Mnemonic, TEXT(""));
 	FLibsodiumUEModule::Get().Ed25519KeyPairFromSeed(KeyPair, Seed);
 }
