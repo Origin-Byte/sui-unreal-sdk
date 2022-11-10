@@ -20,6 +20,9 @@ struct LIBSODIUMUE_API FEd25519KeyPair
 	UPROPERTY(BlueprintReadOnly, Category = "Sui")
 	FString PublicKeyBase64;
 
+	UPROPERTY(BlueprintReadOnly, Category = "Sui")
+	FString PublicKeyAsSuiAddress;
+	
 	// The seed which the keypair was derived from
 	UPROPERTY(BlueprintReadOnly, Category = "Sui")
 	TArray<uint8> Seed;
