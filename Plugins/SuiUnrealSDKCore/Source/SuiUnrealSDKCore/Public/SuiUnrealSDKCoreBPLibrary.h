@@ -3,6 +3,7 @@
 #pragma once
 
 #include "LibsodiumUETypes.h"
+#include "Types.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "VaRestJsonValue.h"
 #include "SuiUnrealSDKCoreBPLibrary.generated.h"
@@ -40,7 +41,7 @@ class USuiUnrealSDKCoreBPLibrary : public UBlueprintFunctionLibrary
 		const TArray<FString>& TypeArguments, const TArray<UVaRestJsonValue*>& Arguments, const FString& Gas, int64 GasBudget, const FRpcResultReceivedDelegate& OnResult);
 	
 	UFUNCTION(BlueprintCallable, Category = "Sui | Transaction")
-	static void SignAndExecuteTransaction(const FString& Endpoint, const FString& TxBytes, const FEd25519KeyPair KeyPair, const FRpcResultReceivedDelegate& OnResult);
+	static void SignAndExecuteTransaction(const FString& Endpoint, const FString& TxBytes, const FEd25519KeyPair KeyPair, ESuiExecuteTransactionRequestType ExecuteTransactionRequestType, const FRpcResultReceivedDelegate& OnResult);
 
 	UFUNCTION(BlueprintCallable, Category = "Sui | Transaction")
 	static void TransferObject(const FString& Endpoint, const FString& Signer, const FString& ObjectId, const FString& Gas, int64 GasBudget, const FString& Recipient, const FRpcResultReceivedDelegate& OnResultReceived);

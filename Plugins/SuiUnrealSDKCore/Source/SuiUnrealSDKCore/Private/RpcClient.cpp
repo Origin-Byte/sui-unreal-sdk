@@ -92,13 +92,14 @@ void FRpcClient::MoveCall(const FString& Signer, const FString& PackageObjectId,
 	SendRequest(Request, SuccessDelegate);
 }
 
-void FRpcClient::ExecuteTransaction(const FString& TxBytes, const FString& Signature, const FString& PublicKey, const FRpcSuccessDelegate& SuccessDelegate)
+void FRpcClient::ExecuteTransaction(const FString& TxBytes, const FString& Signature, const FString& PublicKey, ESuiExecuteTransactionRequestType ExecuteTransactionRequestType, const FRpcSuccessDelegate& SuccessDelegate)
 {
 	TArray<TSharedPtr<FJsonValue>> Params;
 	Params.Add(MakeShareable(new FJsonValueString(TxBytes)));
 	Params.Add(MakeShareable(new FJsonValueString(TEXT("ED25519")))); // we support this scheme for now
 	Params.Add(MakeShareable(new FJsonValueString(Signature)));
 	Params.Add(MakeShareable(new FJsonValueString(PublicKey)));
+	Params.Add(MakeShareable(new FJsonValueString(ESuiExecuteTransactionRequestTypeNS::ToString(ExecuteTransactionRequestType))));
 	const FJsonRpcRequest Request(TEXT("sui_executeTransaction"), Params);
 	SendRequest(Request, SuccessDelegate);
 }
