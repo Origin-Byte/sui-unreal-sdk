@@ -139,3 +139,21 @@ struct SUIUNREALSDKCORE_API FRpcResult
 	FString ErrorMessage;
 };
 
+UENUM(BlueprintType, Category = "Sui")
+enum class ESuiExecuteTransactionRequestType : uint8
+{
+	None = 0,
+	ImmediateReturn = 1,
+	WaitForTxCert = 2,
+	WaitForEffectsCert = 3,
+	Count UMETA(Hidden)
+};
+ENUM_RANGE_BY_COUNT(ESuiExecuteTransactionRequestType, ESuiExecuteTransactionRequestType::Count);
+
+namespace ESuiExecuteTransactionRequestTypeNS
+{
+	inline FString ToString(const ESuiExecuteTransactionRequestType& EnumVal)
+	{
+		return *UEnum::GetValueAsName(EnumVal).ToString().Replace(TEXT("ESuiExecuteTransactionRequestType::"), TEXT(""));
+	}
+}

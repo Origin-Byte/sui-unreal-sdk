@@ -109,7 +109,7 @@ void USuiUnrealSDKCoreBPLibrary::MoveCall(const FString& Endpoint, const FString
 	Client.MoveCall(Signer, PackageObjectId, Module, Function, TypeArguments, ArgumentJsonValues, Gas, GasBudget, RpcSuccessDelegate);
 }
 
-void USuiUnrealSDKCoreBPLibrary::SignAndExecuteTransaction(const FString& Endpoint, const FString& TxBytes, const FEd25519KeyPair KeyPair, const FRpcResultReceivedDelegate& OnResult)
+void USuiUnrealSDKCoreBPLibrary::SignAndExecuteTransaction(const FString& Endpoint, const FString& TxBytes, const FEd25519KeyPair KeyPair, ESuiExecuteTransactionRequestType ExecuteTransactionRequestType, const FRpcResultReceivedDelegate& OnResult)
 {	
 	auto Client = FRpcClient(Endpoint);
 	FRpcSuccessDelegate RpcSuccessDelegate;
@@ -126,7 +126,7 @@ void USuiUnrealSDKCoreBPLibrary::SignAndExecuteTransaction(const FString& Endpoi
 	
 	const FString Signature = FBase64::Encode(SignatureBytes);
 	
-	Client.ExecuteTransaction(TxBytes, Signature, KeyPair.PublicKeyBase64, RpcSuccessDelegate);
+	Client.ExecuteTransaction(TxBytes, Signature, KeyPair.PublicKeyBase64, ExecuteTransactionRequestType, RpcSuccessDelegate);
 }
 
 void USuiUnrealSDKCoreBPLibrary::TransferObject(const FString& Endpoint, const FString& Signer, const FString& ObjectId, const FString& Gas, int64 GasBudget, const FString& Recipient, const FRpcResultReceivedDelegate& OnResultReceived)
