@@ -307,3 +307,16 @@ void USuiUnrealSDKCoreBPLibrary::GetEventsByTransaction(const FString& Endpoint,
 		});
 	Client.GetEventsByTransaction(Digest, Count, RpcSuccessDelegate);
 }
+
+void USuiUnrealSDKCoreBPLibrary::GetLatestCheckpointSequenceNumber(const FString& Endpoint,
+	const FRpcResultReceivedDelegate& OnResultReceived)
+{
+	auto Client = FRpcClient(Endpoint);
+	FRpcSuccessDelegate RpcSuccessDelegate;
+	RpcSuccessDelegate.BindLambda(
+		[OnResultReceived](const FJsonRpcValidResponse& RpcResponse) {
+			const auto VaJsonValue = GEngine->GetEngineSubsystem<UVaRestSubsystem>()->ConstructJsonValue(RpcResponse.Result);
+			OnResultReceived.ExecuteIfBound(VaJsonValue);
+		});
+	Client.GetLatestCheckpointSequenceNumber(RpcSuccessDelegate);
+}

@@ -282,6 +282,12 @@ void FRpcClient::GetEventsByTransaction(const FString& Digest, uint32 Count, con
 	SendRequest(Request, SuccessDelegate);
 }
 
+void FRpcClient::GetLatestCheckpointSequenceNumber(const FRpcSuccessDelegate& SuccessDelegate)
+{
+	const FJsonRpcRequest Request(TEXT("sui_getLatestCheckpointSequenceNumber"), TArray<TSharedPtr<FJsonValue>>());
+	SendRequest(Request, SuccessDelegate);
+}
+
 void FRpcClient::SendRequest(const FJsonRpcRequest& Request, const FRpcSuccessDelegate& SuccessDelegate, const FRpcErrorDelegate& ErrorDelegate)
 {
 	const TSharedPtr<FJsonObject> JsonRequestObject = FJsonObjectConverter::UStructToJsonObject(Request);

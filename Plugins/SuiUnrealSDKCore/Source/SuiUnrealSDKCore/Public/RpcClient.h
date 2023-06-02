@@ -16,7 +16,7 @@ class SUIUNREALSDKCORE_API FRpcClient
 public:
 	FRpcClient(const FString& InEndpoint);
 	FORCEINLINE const FString& GetEndpoint() const { return Endpoint; }
-
+	
 	void GetRecentTransactions(uint64 Count, const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate());
 	void GetTotalTransactionNumber(const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate());
 	void GetTransaction(const FString& Digest, const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate());
@@ -46,6 +46,8 @@ public:
 	void GetEventsByTimeRange(uint32 Count, uint64 StartTime, uint64 EndTime, const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate());
 	void GetEventsByTransaction(const FString& Digest, uint32 Count, const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate());
 
+	// Extended API
+	void GetLatestCheckpointSequenceNumber(const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate());
 
 	
 private:
