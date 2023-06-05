@@ -2,12 +2,15 @@
 
 
 #include "RpcClient.h"
+
+#include "EditorMetadataOverrides.h"
 #include "HttpModule.h"
 #include "Serialization/JsonSerializer.h"
 #include "SuiUnrealSDKCore.h"
 #include "JsonObjectConverter.h"
 #include "Util.h"
 #include "VaRestSubsystem.h"
+#include "Math/BigInt.h"
 
 FRpcClient::FRpcClient(const FString& InEndpoint)
 	: Endpoint(InEndpoint)
@@ -285,6 +288,19 @@ void FRpcClient::GetEventsByTransaction(const FString& Digest, uint32 Count, con
 void FRpcClient::GetLatestCheckpointSequenceNumber(const FRpcSuccessDelegate& SuccessDelegate)
 {
 	const FJsonRpcRequest Request(TEXT("sui_getLatestCheckpointSequenceNumber"), TArray<TSharedPtr<FJsonValue>>());
+	SendRequest(Request, SuccessDelegate);
+}
+
+void FRpcClient::GetBalance(const FString& OwnerAddress, const FString& CoinType,
+	const FRpcSuccessDelegate& SuccessDelegate)
+{
+	TArray<TSharedPtr<FJsonValue>> Params;
+	Params.Add(MakeShareable(new FJsonValueString(OwnerAddress)));
+	if (!CoinType.IsEmpty())
+	{
+		Params.Add(MakeShareable(new FJsonValueString(CoinType)));
+	}
+	const FJsonRpcRequest Request(TEXT("suix_getBalance"), Params);
 	SendRequest(Request, SuccessDelegate);
 }
 

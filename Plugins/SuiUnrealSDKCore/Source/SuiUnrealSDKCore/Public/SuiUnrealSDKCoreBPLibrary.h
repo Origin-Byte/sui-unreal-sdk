@@ -87,8 +87,11 @@ class USuiUnrealSDKCoreBPLibrary : public UBlueprintFunctionLibrary
 
 	UFUNCTION(BlueprintCallable, Category = "Sui | Event Read")
 	static void GetEventsByTransaction(const FString& Endpoint, const FString& Digest, int32 Count, const FRpcResultReceivedDelegate& OnResultReceived);
-
+	
 	UFUNCTION(BlueprintCallable, Category = "Sui | Extended")
 	static void GetLatestCheckpointSequenceNumber(const FString& Endpoint, const FRpcResultReceivedDelegate& OnResultReceived);
+
+	UFUNCTION(BlueprintCallable, Category = "Sui | CoinQuery")
+	static void GetBalance(const FString& Endpoint, const FString& OwnerAddress, const FString& CoinType, const FRpcResultReceivedDelegate& OnResultReceived);
 };
 

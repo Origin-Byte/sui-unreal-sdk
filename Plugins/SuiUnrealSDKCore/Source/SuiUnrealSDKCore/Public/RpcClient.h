@@ -47,8 +47,14 @@ public:
 	void GetEventsByTransaction(const FString& Digest, uint32 Count, const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate());
 
 	// Extended API
+	/**
+	 * @brief Return the sequence number of the latest checkpoint that has been executed
+	 * @param SuccessDelegate
+	 */
 	void GetLatestCheckpointSequenceNumber(const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate());
 
+	// CoinQueryApi
+	void GetBalance(const FString& OwnerAddress, const FString& CoinType, const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate());
 	
 private:
 	void SendRequest(const FJsonRpcRequest& Request, const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate(), const FRpcErrorDelegate& ErrorDelegate = FRpcErrorDelegate());

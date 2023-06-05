@@ -320,3 +320,16 @@ void USuiUnrealSDKCoreBPLibrary::GetLatestCheckpointSequenceNumber(const FString
 		});
 	Client.GetLatestCheckpointSequenceNumber(RpcSuccessDelegate);
 }
+
+void USuiUnrealSDKCoreBPLibrary::GetBalance(const FString& Endpoint, const FString& OwnerAddress,
+	const FString& CoinType, const FRpcResultReceivedDelegate& OnResultReceived)
+{
+	auto Client = FRpcClient(Endpoint);
+	FRpcSuccessDelegate RpcSuccessDelegate;
+	RpcSuccessDelegate.BindLambda(
+		[OnResultReceived](const FJsonRpcValidResponse& RpcResponse) {
+			const auto VaJsonValue = GEngine->GetEngineSubsystem<UVaRestSubsystem>()->ConstructJsonValue(RpcResponse.Result);
+			OnResultReceived.ExecuteIfBound(VaJsonValue);
+		});
+	Client.GetBalance(OwnerAddress, CoinType, RpcSuccessDelegate);
+}
