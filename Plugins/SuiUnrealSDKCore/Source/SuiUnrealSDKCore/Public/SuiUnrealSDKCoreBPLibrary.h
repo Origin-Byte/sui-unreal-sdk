@@ -92,6 +92,9 @@ class USuiUnrealSDKCoreBPLibrary : public UBlueprintFunctionLibrary
 	static void GetLatestCheckpointSequenceNumber(const FString& Endpoint, const FRpcResultReceivedDelegate& OnResultReceived);
 
 	UFUNCTION(BlueprintCallable, Category = "Sui | Extended")
+	static void GetDynamicFields(const FString& Endpoint, const FString& ParentObjectId, const FString& Cursor, const int64 Limit, const FRpcResultReceivedDelegate& OnResultReceived);
+	
+	UFUNCTION(BlueprintCallable, Category = "Sui | Extended")
 	static void GetDynamicFieldObject(const FString& Endpoint, const FString& ParentObjectId, const FString& DynamicFieldNameType, UVaRestJsonValue* DynamicFieldNameValue, const FRpcResultReceivedDelegate& OnResultReceived);
 
 	UFUNCTION(BlueprintCallable, Category = "Sui | CoinQuery")

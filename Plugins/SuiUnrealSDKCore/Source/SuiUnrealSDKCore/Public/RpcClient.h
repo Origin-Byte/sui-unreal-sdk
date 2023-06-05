@@ -62,6 +62,15 @@ public:
 	 */
 	void GetDynamicFieldObject(const FString& ParentObjectId, const FString& DynamicFieldNameType, const TSharedPtr<FJsonValue>& DynamicFieldNameValue, const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate());
 
+	/**
+	 * @brief Return the list of dynamic field objects owned by an object.
+	 * @param ParentObjectId The ID of the parent object
+	 * @param Cursor An optional paging cursor. If provided, the query will start from the next item after the specified cursor. Default to start from the first item if not specified.
+	 * @param Limit Maximum item returned per page, default to [QUERY_MAX_RESULT_LIMIT] if not specified
+	 * @param SuccessDelegate 
+	 */
+	void GetDynamicFields(const FString& ParentObjectId, const FString& Cursor, const TOptional<uint64> Limit, const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate());
+
 	// CoinQuery API
 	void GetBalance(const FString& OwnerAddress, const FString& CoinType, const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate());
 	void GetAllBalances(const FString& OwnerAddress, const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate());

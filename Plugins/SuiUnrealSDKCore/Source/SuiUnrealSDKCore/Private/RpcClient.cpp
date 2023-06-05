@@ -91,7 +91,7 @@ void FRpcClient::MoveCall(const FString& Signer, const FString& PackageObjectId,
 	Params.Add(MakeShareable(new FJsonValueString(Gas)));
 	Params.Add(MakeShareable(new FJsonValueNumberString(FUtil::UInt64ToFString(GasBudget))));
 
-	const FJsonRpcRequest Request(TEXT("sui_moveCall"), Params);
+	const FJsonRpcRequest Request(TEXT("unsafe_moveCall"), Params);
 	SendRequest(Request, SuccessDelegate);
 }
 
@@ -297,12 +297,34 @@ void FRpcClient::GetDynamicFieldObject(const FString& ParentObjectId, const FStr
 	TArray<TSharedPtr<FJsonValue>> Params;
 	Params.Add(MakeShareable(new FJsonValueString(ParentObjectId)));
 
-	TSharedPtr<FJsonObject> DynamicFieldNameJsonObject = MakeShareable(new FJsonObject());
+	const TSharedPtr<FJsonObject> DynamicFieldNameJsonObject = MakeShareable(new FJsonObject());
 	DynamicFieldNameJsonObject->SetStringField("type", DynamicFieldNameType);
 	DynamicFieldNameJsonObject->SetField("value", DynamicFieldNameValue);
 	Params.Add(MakeShareable(new FJsonValueObject(DynamicFieldNameJsonObject)));
 	
 	const FJsonRpcRequest Request(TEXT("suix_getDynamicFieldObject"), Params);
+	SendRequest(Request, SuccessDelegate);
+}
+
+void FRpcClient::GetDynamicFields(const FString& ParentObjectId, const FString& Cursor, const TOptional<uint64> Limit,
+	const FRpcSuccessDelegate& SuccessDelegate)
+{
+	TArray<TSharedPtr<FJsonValue>> Params;
+	Params.Add(MakeShareable(new FJsonValueString(ParentObjectId)));
+	if (!Cursor.IsEmpty())
+	{
+		Params.Add(MakeShareable(new FJsonValueString(Cursor)));
+	}
+	else
+	{
+		Params.Add(MakeShareable(new FJsonValueNull()));
+	}
+	if (Limit.IsSet())
+	{
+		Params.Add(MakeShareable(new FJsonValueNumberString(FUtil::UInt64ToFString(Limit.GetValue()))));
+	}
+
+	const FJsonRpcRequest Request(TEXT("suix_getDynamicFields"), Params);
 	SendRequest(Request, SuccessDelegate);
 }
 

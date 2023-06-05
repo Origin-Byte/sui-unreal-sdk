@@ -321,6 +321,19 @@ void USuiUnrealSDKCoreBPLibrary::GetLatestCheckpointSequenceNumber(const FString
 	Client.GetLatestCheckpointSequenceNumber(RpcSuccessDelegate);
 }
 
+void USuiUnrealSDKCoreBPLibrary::GetDynamicFields(const FString& Endpoint, const FString& ParentObjectId,
+	const FString& Cursor, const int64 Limit, const FRpcResultReceivedDelegate& OnResultReceived)
+{
+	auto Client = FRpcClient(Endpoint);
+	FRpcSuccessDelegate RpcSuccessDelegate;
+	RpcSuccessDelegate.BindLambda(
+		[OnResultReceived](const FJsonRpcValidResponse& RpcResponse) {
+			const auto VaJsonValue = GEngine->GetEngineSubsystem<UVaRestSubsystem>()->ConstructJsonValue(RpcResponse.Result);
+			OnResultReceived.ExecuteIfBound(VaJsonValue);
+		});
+	Client.GetDynamicFields(ParentObjectId, Cursor, Limit, RpcSuccessDelegate);
+}
+
 void USuiUnrealSDKCoreBPLibrary::GetDynamicFieldObject(const FString& Endpoint, const FString& ParentObjectId,
 	const FString& DynamicFieldNameType, UVaRestJsonValue* DynamicFieldNameValue,
 	const FRpcResultReceivedDelegate& OnResultReceived)
