@@ -93,5 +93,8 @@ class USuiUnrealSDKCoreBPLibrary : public UBlueprintFunctionLibrary
 
 	UFUNCTION(BlueprintCallable, Category = "Sui | CoinQuery")
 	static void GetBalance(const FString& Endpoint, const FString& OwnerAddress, const FString& CoinType, const FRpcResultReceivedDelegate& OnResultReceived);
+
+	UFUNCTION(BlueprintCallable, Category = "Sui | CoinQuery")
+	static void GetAllBalances(const FString& Endpoint, const FString& OwnerAddress, const FRpcResultReceivedDelegate& OnResultReceived);
 };
 

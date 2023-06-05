@@ -304,6 +304,14 @@ void FRpcClient::GetBalance(const FString& OwnerAddress, const FString& CoinType
 	SendRequest(Request, SuccessDelegate);
 }
 
+void FRpcClient::GetAllBalances(const FString& OwnerAddress, const FRpcSuccessDelegate& SuccessDelegate)
+{
+	TArray<TSharedPtr<FJsonValue>> Params;
+	Params.Add(MakeShareable(new FJsonValueString(OwnerAddress)));
+	const FJsonRpcRequest Request(TEXT("suix_getAllBalances"), Params);
+	SendRequest(Request, SuccessDelegate);
+}
+
 void FRpcClient::SendRequest(const FJsonRpcRequest& Request, const FRpcSuccessDelegate& SuccessDelegate, const FRpcErrorDelegate& ErrorDelegate)
 {
 	const TSharedPtr<FJsonObject> JsonRequestObject = FJsonObjectConverter::UStructToJsonObject(Request);

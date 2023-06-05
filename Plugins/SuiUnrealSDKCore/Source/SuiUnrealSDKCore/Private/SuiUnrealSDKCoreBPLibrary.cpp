@@ -333,3 +333,16 @@ void USuiUnrealSDKCoreBPLibrary::GetBalance(const FString& Endpoint, const FStri
 		});
 	Client.GetBalance(OwnerAddress, CoinType, RpcSuccessDelegate);
 }
+
+void USuiUnrealSDKCoreBPLibrary::GetAllBalances(const FString& Endpoint, const FString& OwnerAddress,
+	const FRpcResultReceivedDelegate& OnResultReceived)
+{
+	auto Client = FRpcClient(Endpoint);
+	FRpcSuccessDelegate RpcSuccessDelegate;
+	RpcSuccessDelegate.BindLambda(
+		[OnResultReceived](const FJsonRpcValidResponse& RpcResponse) {
+			const auto VaJsonValue = GEngine->GetEngineSubsystem<UVaRestSubsystem>()->ConstructJsonValue(RpcResponse.Result);
+			OnResultReceived.ExecuteIfBound(VaJsonValue);
+		});
+	Client.GetAllBalances(OwnerAddress, RpcSuccessDelegate);
+}
