@@ -291,6 +291,21 @@ void FRpcClient::GetLatestCheckpointSequenceNumber(const FRpcSuccessDelegate& Su
 	SendRequest(Request, SuccessDelegate);
 }
 
+void FRpcClient::GetDynamicFieldObject(const FString& ParentObjectId, const FString& DynamicFieldNameType,
+	const TSharedPtr<FJsonValue>& DynamicFieldNameValue, const FRpcSuccessDelegate& SuccessDelegate)
+{
+	TArray<TSharedPtr<FJsonValue>> Params;
+	Params.Add(MakeShareable(new FJsonValueString(ParentObjectId)));
+
+	TSharedPtr<FJsonObject> DynamicFieldNameJsonObject = MakeShareable(new FJsonObject());
+	DynamicFieldNameJsonObject->SetStringField("type", DynamicFieldNameType);
+	DynamicFieldNameJsonObject->SetField("value", DynamicFieldNameValue);
+	Params.Add(MakeShareable(new FJsonValueObject(DynamicFieldNameJsonObject)));
+	
+	const FJsonRpcRequest Request(TEXT("suix_getDynamicFieldObject"), Params);
+	SendRequest(Request, SuccessDelegate);
+}
+
 void FRpcClient::GetBalance(const FString& OwnerAddress, const FString& CoinType,
 	const FRpcSuccessDelegate& SuccessDelegate)
 {
@@ -317,6 +332,12 @@ void FRpcClient::GetAllCoins(const FString& OwnerAddress, const FRpcSuccessDeleg
 	TArray<TSharedPtr<FJsonValue>> Params;
 	Params.Add(MakeShareable(new FJsonValueString(OwnerAddress)));
 	const FJsonRpcRequest Request(TEXT("suix_getAllCoins"), Params);
+	SendRequest(Request, SuccessDelegate);
+}
+
+void FRpcClient::GetTotalTransactionBlocks(const FRpcSuccessDelegate& SuccessDelegate)
+{
+	const FJsonRpcRequest Request(TEXT("sui_getTotalTransactionBlocks"), TArray<TSharedPtr<FJsonValue>>());
 	SendRequest(Request, SuccessDelegate);
 }
 

@@ -91,6 +91,9 @@ class USuiUnrealSDKCoreBPLibrary : public UBlueprintFunctionLibrary
 	UFUNCTION(BlueprintCallable, Category = "Sui | Extended")
 	static void GetLatestCheckpointSequenceNumber(const FString& Endpoint, const FRpcResultReceivedDelegate& OnResultReceived);
 
+	UFUNCTION(BlueprintCallable, Category = "Sui | Extended")
+	static void GetDynamicFieldObject(const FString& Endpoint, const FString& ParentObjectId, const FString& DynamicFieldNameType, UVaRestJsonValue* DynamicFieldNameValue, const FRpcResultReceivedDelegate& OnResultReceived);
+
 	UFUNCTION(BlueprintCallable, Category = "Sui | CoinQuery")
 	static void GetBalance(const FString& Endpoint, const FString& OwnerAddress, const FString& CoinType, const FRpcResultReceivedDelegate& OnResultReceived);
 
@@ -99,6 +102,9 @@ class USuiUnrealSDKCoreBPLibrary : public UBlueprintFunctionLibrary
 
 	UFUNCTION(BlueprintCallable, Category = "Sui | CoinQuery")
 	static void GetAllCoins(const FString& Endpoint, const FString& OwnerAddress, const FRpcResultReceivedDelegate& OnResultReceived);
+
+	UFUNCTION(BlueprintCallable, Category = "Sui | Read")
+	static void GetTotalTransactionBlocks(const FString& Endpoint, const FRpcResultReceivedDelegate& OnResultReceived);
 
 };
 

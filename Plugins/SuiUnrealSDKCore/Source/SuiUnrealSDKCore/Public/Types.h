@@ -3,7 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Dom/JsonObject.h"
+#include "JsonObjectConverter.h"
+#include "VaRestSubsystem.h"
 #include "Types.generated.h"
 
 USTRUCT(BlueprintType)

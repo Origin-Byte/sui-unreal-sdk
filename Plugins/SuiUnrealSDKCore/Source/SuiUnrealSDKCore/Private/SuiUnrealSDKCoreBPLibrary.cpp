@@ -321,8 +321,22 @@ void USuiUnrealSDKCoreBPLibrary::GetLatestCheckpointSequenceNumber(const FString
 	Client.GetLatestCheckpointSequenceNumber(RpcSuccessDelegate);
 }
 
+void USuiUnrealSDKCoreBPLibrary::GetDynamicFieldObject(const FString& Endpoint, const FString& ParentObjectId,
+	const FString& DynamicFieldNameType, UVaRestJsonValue* DynamicFieldNameValue,
+	const FRpcResultReceivedDelegate& OnResultReceived)
+{
+	auto Client = FRpcClient(Endpoint);
+	FRpcSuccessDelegate RpcSuccessDelegate;
+	RpcSuccessDelegate.BindLambda(
+		[OnResultReceived](const FJsonRpcValidResponse& RpcResponse) {
+			const auto VaJsonValue = GEngine->GetEngineSubsystem<UVaRestSubsystem>()->ConstructJsonValue(RpcResponse.Result);
+			OnResultReceived.ExecuteIfBound(VaJsonValue);
+		});
+	Client.GetDynamicFieldObject(ParentObjectId, DynamicFieldNameType, DynamicFieldNameValue->GetRootValue(), RpcSuccessDelegate);
+}
+
 void USuiUnrealSDKCoreBPLibrary::GetBalance(const FString& Endpoint, const FString& OwnerAddress,
-	const FString& CoinType, const FRpcResultReceivedDelegate& OnResultReceived)
+                                            const FString& CoinType, const FRpcResultReceivedDelegate& OnResultReceived)
 {
 	auto Client = FRpcClient(Endpoint);
 	FRpcSuccessDelegate RpcSuccessDelegate;
@@ -358,4 +372,17 @@ void USuiUnrealSDKCoreBPLibrary::GetAllCoins(const FString& Endpoint, const FStr
 			OnResultReceived.ExecuteIfBound(VaJsonValue);
 		});
 	Client.GetAllCoins(OwnerAddress, RpcSuccessDelegate);
+}
+
+void USuiUnrealSDKCoreBPLibrary::GetTotalTransactionBlocks(const FString& Endpoint,
+	const FRpcResultReceivedDelegate& OnResultReceived)
+{
+	auto Client = FRpcClient(Endpoint);
+	FRpcSuccessDelegate RpcSuccessDelegate;
+	RpcSuccessDelegate.BindLambda(
+		[OnResultReceived](const FJsonRpcValidResponse& RpcResponse) {
+			const auto VaJsonValue = GEngine->GetEngineSubsystem<UVaRestSubsystem>()->ConstructJsonValue(RpcResponse.Result);
+			OnResultReceived.ExecuteIfBound(VaJsonValue);
+		});
+	Client.GetTotalTransactionBlocks(RpcSuccessDelegate);
 }

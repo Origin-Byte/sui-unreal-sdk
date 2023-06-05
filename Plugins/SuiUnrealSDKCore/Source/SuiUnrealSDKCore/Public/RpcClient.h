@@ -52,12 +52,25 @@ public:
 	 * @param SuccessDelegate
 	 */
 	void GetLatestCheckpointSequenceNumber(const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate());
+	
+	/**
+	 * @brief Return the dynamic field object information for a specified object
+	 * @param ParentObjectId
+	 * @param DynamicFieldNameType
+	 * @param DynamicFieldNameValue
+	 * @param SuccessDelegate 
+	 */
+	void GetDynamicFieldObject(const FString& ParentObjectId, const FString& DynamicFieldNameType, const TSharedPtr<FJsonValue>& DynamicFieldNameValue, const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate());
 
-	// CoinQueryApi
+	// CoinQuery API
 	void GetBalance(const FString& OwnerAddress, const FString& CoinType, const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate());
 	void GetAllBalances(const FString& OwnerAddress, const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate());
 	void GetAllCoins(const FString& OwnerAddress, const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate());
 
+	// Read API
+	void GetTotalTransactionBlocks(const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate());
+
+	
 private:
 	void SendRequest(const FJsonRpcRequest& Request, const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate(), const FRpcErrorDelegate& ErrorDelegate = FRpcErrorDelegate());
 
