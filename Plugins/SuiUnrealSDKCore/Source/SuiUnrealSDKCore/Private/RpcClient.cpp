@@ -283,12 +283,11 @@ void FRpcClient::GetEventsByTimeRange(uint32 Count, uint64 StartTime, uint64 End
 	SendRequest(Request, SuccessDelegate);
 }
 
-void FRpcClient::GetEventsByTransaction(const FString& Digest, uint32 Count, const FRpcSuccessDelegate& SuccessDelegate)
+void FRpcClient::GetEventsByTransaction(const FString& Digest, const FRpcSuccessDelegate& SuccessDelegate)
 {
 	TArray<TSharedPtr<FJsonValue>> Params;
 	Params.Add(MakeShareable(new FJsonValueString(Digest)));
-	Params.Add(MakeShareable(new FJsonValueNumberString(FUtil::UInt32ToFString(Count))));
-	const FJsonRpcRequest Request(TEXT("sui_getEventsByTransaction"), Params);
+	const FJsonRpcRequest Request(TEXT("sui_getEvents"), Params);
 	SendRequest(Request, SuccessDelegate);
 }
 

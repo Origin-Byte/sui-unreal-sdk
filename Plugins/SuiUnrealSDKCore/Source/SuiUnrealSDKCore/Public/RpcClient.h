@@ -44,7 +44,7 @@ public:
 	//void GetEventsByRecipient(const FObjectOwner& Owner, uint32 Count, uint64 StartTime, uint64 EndTime, const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate());
 	void GetEventsBySender(const FString& SenderAddress, uint32 Count, uint64 StartTime, uint64 EndTime, const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate());
 	void GetEventsByTimeRange(uint32 Count, uint64 StartTime, uint64 EndTime, const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate());
-	void GetEventsByTransaction(const FString& Digest, uint32 Count, const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate());
+	void GetEventsByTransaction(const FString& Digest, const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate());
 
 	// Extended API
 	/**
