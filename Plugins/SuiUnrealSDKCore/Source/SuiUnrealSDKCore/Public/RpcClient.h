@@ -26,7 +26,7 @@ public:
 	void GetObjectsOwnedByObject(const FString& ObjectId, const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate());
 
 	void MoveCall(const FString& Signer, const FString& PackageObjectId, const FString& Module, const FString& Function,
-		const TArray<FString>& TypeArguments, const TArray<TSharedPtr<FJsonValue>>& Arguments, const FString& Gas, uint64 GasBudget, const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate());
+		const TArray<FString>& TypeArguments, const TArray<TSharedPtr<FJsonValue>>& Arguments, const FString& Gas, const FString& GasBudget, const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate());
 	void ExecuteTransaction(const FString& TxBytes, const FString& Signature, const FString& PublicKey, ESuiExecuteTransactionRequestType ExecuteTransactionRequestType, const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate());
 	void TransferObject(const FString& Signer, const FString& ObjectId, const FString& Gas, uint64 GasBudget, const FString& Recipient, const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate());
 	void TransferSui(const FString& Signer, const FString& SuiObjectId, uint64 GasBudget, const FString& Recipient, uint64 Amount, const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate());

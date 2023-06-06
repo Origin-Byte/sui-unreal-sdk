@@ -91,7 +91,7 @@ void USuiUnrealSDKCoreBPLibrary::GetObjectsOwnedByObject(const FString& Endpoint
 }
 
 void USuiUnrealSDKCoreBPLibrary::MoveCall(const FString& Endpoint, const FString& Signer, const FString& PackageObjectId, const FString& Module, const FString& Function,
-		const TArray<FString>& TypeArguments, const TArray<UVaRestJsonValue*>& Arguments, const FString& Gas, int64 GasBudget, const FRpcResultReceivedDelegate& OnResult)
+		const TArray<FString>& TypeArguments, const TArray<UVaRestJsonValue*>& Arguments, const FString& Gas, const FString& GasBudget, const FRpcResultReceivedDelegate& OnResult)
 {
 	auto Client = FRpcClient(Endpoint);
 	FRpcSuccessDelegate RpcSuccessDelegate;

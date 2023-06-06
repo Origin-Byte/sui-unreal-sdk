@@ -73,7 +73,7 @@ void FRpcClient::GetObjectsOwnedByObject(const FString& ObjectId, const FRpcSucc
 }
 
 void FRpcClient::MoveCall(const FString& Signer, const FString& PackageObjectId, const FString& Module, const FString& Function,
-		const TArray<FString>& TypeArguments, const TArray<TSharedPtr<FJsonValue>>& Arguments, const FString& Gas, uint64 GasBudget, const FRpcSuccessDelegate& SuccessDelegate)
+		const TArray<FString>& TypeArguments, const TArray<TSharedPtr<FJsonValue>>& Arguments, const FString& Gas, const FString& GasBudget, const FRpcSuccessDelegate& SuccessDelegate)
 {
 	TArray<TSharedPtr<FJsonValue>> TypeArgumentJsonValues;
 	for(auto TypeArg : TypeArguments)
@@ -88,8 +88,15 @@ void FRpcClient::MoveCall(const FString& Signer, const FString& PackageObjectId,
 	Params.Add(MakeShareable(new FJsonValueString(Function)));
 	Params.Add(MakeShareable(new FJsonValueArray(TypeArgumentJsonValues)));
 	Params.Add(MakeShareable(new FJsonValueArray(Arguments)));
-	Params.Add(MakeShareable(new FJsonValueString(Gas)));
-	Params.Add(MakeShareable(new FJsonValueNumberString(FUtil::UInt64ToFString(GasBudget))));
+	if (!Gas.IsEmpty())
+	{
+		Params.Add(MakeShareable(new FJsonValueString(Gas)));
+	}
+	else
+	{
+		Params.Add(MakeShareable(new FJsonValueNull()));
+	}
+	Params.Add(MakeShareable(new FJsonValueString(GasBudget)));
 
 	const FJsonRpcRequest Request(TEXT("unsafe_moveCall"), Params);
 	SendRequest(Request, SuccessDelegate);

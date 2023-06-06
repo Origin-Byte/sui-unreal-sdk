@@ -38,7 +38,7 @@ class USuiUnrealSDKCoreBPLibrary : public UBlueprintFunctionLibrary
 
 	UFUNCTION(BlueprintCallable, Category = "Sui | Transaction")
 	static void MoveCall(const FString& Endpoint, const FString& Signer, const FString& PackageObjectId, const FString& Module, const FString& Function,
-		const TArray<FString>& TypeArguments, const TArray<UVaRestJsonValue*>& Arguments, const FString& Gas, int64 GasBudget, const FRpcResultReceivedDelegate& OnResult);
+		const TArray<FString>& TypeArguments, const TArray<UVaRestJsonValue*>& Arguments, const FString& Gas, const FString& GasBudget, const FRpcResultReceivedDelegate& OnResult);
 	
 	UFUNCTION(BlueprintCallable, Category = "Sui | Transaction")
 	static void SignAndExecuteTransaction(const FString& Endpoint, const FString& TxBytes, const FEd25519KeyPair KeyPair, ESuiExecuteTransactionRequestType ExecuteTransactionRequestType, const FRpcResultReceivedDelegate& OnResult);
