@@ -363,6 +363,25 @@ void FRpcClient::GetTotalTransactionBlocks(const FRpcSuccessDelegate& SuccessDel
 	SendRequest(Request, SuccessDelegate);
 }
 
+void FRpcClient::GetTransactionBlock(const FString& Digest, const FTransactionBlockResponseOptions& Options, const FRpcSuccessDelegate& SuccessDelegate)
+{
+	TArray<TSharedPtr<FJsonValue>> Params;
+	Params.Add(MakeShareable(new FJsonValueString(Digest)));
+
+	const TSharedPtr<FJsonObject> OptionsObject = MakeShared<FJsonObject>();
+	OptionsObject->SetBoolField("showBalanceChanges", Options.bShowBalanceChanges);
+	OptionsObject->SetBoolField("showEffects", Options.bShowEffects);
+	OptionsObject->SetBoolField("showEvents", Options.bShowEvents);
+	OptionsObject->SetBoolField("showInput", Options.bShowInput);
+	OptionsObject->SetBoolField("showObjectChanges", Options.bShowObjectChanges);
+	OptionsObject->SetBoolField("showRawInput", Options.bShowRawInput);
+
+	Params.Add(MakeShareable(new FJsonValueObject(OptionsObject)));
+	
+	const FJsonRpcRequest Request(TEXT("sui_getTransactionBlock"), Params);
+	SendRequest(Request, SuccessDelegate);
+}
+
 void FRpcClient::SendRequest(const FJsonRpcRequest& Request, const FRpcSuccessDelegate& SuccessDelegate, const FRpcErrorDelegate& ErrorDelegate)
 {
 	const TSharedPtr<FJsonObject> JsonRequestObject = FJsonObjectConverter::UStructToJsonObject(Request);

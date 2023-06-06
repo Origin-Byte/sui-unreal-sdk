@@ -399,3 +399,16 @@ void USuiUnrealSDKCoreBPLibrary::GetTotalTransactionBlocks(const FString& Endpoi
 		});
 	Client.GetTotalTransactionBlocks(RpcSuccessDelegate);
 }
+
+void USuiUnrealSDKCoreBPLibrary::GetTransactionBlock(const FString& Endpoint, const FString& Digest, const FTransactionBlockResponseOptions& Options,
+	const FRpcResultReceivedDelegate& OnResultReceived)
+{
+	auto Client = FRpcClient(Endpoint);
+	FRpcSuccessDelegate RpcSuccessDelegate;
+	RpcSuccessDelegate.BindLambda(
+		[OnResultReceived](const FJsonRpcValidResponse& RpcResponse) {
+			const auto VaJsonValue = GEngine->GetEngineSubsystem<UVaRestSubsystem>()->ConstructJsonValue(RpcResponse.Result);
+			OnResultReceived.ExecuteIfBound(VaJsonValue);
+		});
+	Client.GetTransactionBlock(Digest, Options, RpcSuccessDelegate);
+}

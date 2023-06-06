@@ -109,5 +109,8 @@ class USuiUnrealSDKCoreBPLibrary : public UBlueprintFunctionLibrary
 	UFUNCTION(BlueprintCallable, Category = "Sui | Read")
 	static void GetTotalTransactionBlocks(const FString& Endpoint, const FRpcResultReceivedDelegate& OnResultReceived);
 
+	UFUNCTION(BlueprintCallable, Category = "Sui | Read")
+	static void GetTransactionBlock(const FString& Endpoint, const FString& Digest, const FTransactionBlockResponseOptions& Options, const FRpcResultReceivedDelegate& OnResultReceived);
+
 };
 

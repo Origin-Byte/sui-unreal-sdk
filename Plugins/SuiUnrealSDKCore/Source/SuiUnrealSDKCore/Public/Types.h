@@ -158,3 +158,27 @@ namespace ESuiExecuteTransactionRequestTypeNS
 		return *UEnum::GetValueAsName(EnumVal).ToString().Replace(TEXT("ESuiExecuteTransactionRequestType::"), TEXT(""));
 	}
 }
+
+USTRUCT(BlueprintType)
+struct FTransactionBlockResponseOptions
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sui | TransactionBlockResponseOptions")
+	bool bShowBalanceChanges = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sui | TransactionBlockResponseOptions")
+	bool bShowEffects = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sui | TransactionBlockResponseOptions")
+	bool bShowEvents = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sui | TransactionBlockResponseOptions")
+	bool bShowInput = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sui | TransactionBlockResponseOptions")
+	bool bShowObjectChanges = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sui | TransactionBlockResponseOptions")
+	bool bShowRawInput = false;
+};

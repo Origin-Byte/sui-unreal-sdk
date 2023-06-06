@@ -78,6 +78,7 @@ public:
 
 	// Read API
 	void GetTotalTransactionBlocks(const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate());
+	void GetTransactionBlock(const FString& Digest, const FTransactionBlockResponseOptions& Options, const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate());
 
 	
 private:
