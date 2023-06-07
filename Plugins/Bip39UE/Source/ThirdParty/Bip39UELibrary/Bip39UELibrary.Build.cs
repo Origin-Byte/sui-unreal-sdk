@@ -17,5 +17,12 @@ public class Bip39UELibrary : ModuleRules
 			PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "lib", "Release", "x64", "bip39.lib"));
 			PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "lib", "Release", "x64", "toolbox.lib"));
 		}
+		
+		PublicDependencyModuleNames.AddRange(
+			new string[]
+			{
+				"LibsodiumUE"
+			}
+		);
 	}
 }

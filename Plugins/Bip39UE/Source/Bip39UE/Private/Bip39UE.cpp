@@ -2,6 +2,7 @@
 
 #include "Bip39UE.h"
 #include "Core.h"
+#include "LibsodiumUE.h"
 #include "Modules/ModuleManager.h"
 #include "bip3x/bip39.h"
 #include "bip3x/Bip39Mnemonic.h"
@@ -122,9 +123,9 @@ void FBip39UEModule::PublicKeyBytesToSuiAddress(FString& OutSuiAddress, const TA
 	TmpBytes.Append(PublicKeyBytes);
 	TArray<uint8> Digest;
 	Digest.SetNum(64);
-	sha3_256(TmpBytes.GetData(), TmpBytes.Num(), Digest.GetData());
+	FLibsodiumUEModule::Get().ComputeBlake2bHash(TmpBytes, Digest);
 	OutSuiAddress = FString(TEXT("0x"));
-	OutSuiAddress.Append(BytesToHex(Digest.GetData(), Digest.Num()).Left(40));
+	OutSuiAddress.Append(BytesToHex(Digest.GetData(), Digest.Num()).Left(64));
 	OutSuiAddress.ToLowerInline();
 }
 
