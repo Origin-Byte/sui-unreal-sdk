@@ -3,8 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "JsonObjectConverter.h"
-#include "VaRestSubsystem.h"
 #include "Types.generated.h"
 
 USTRUCT(BlueprintType)
@@ -207,4 +205,39 @@ struct FObjectDataOptions
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Sui | FObjectDataOptions")
 	bool bShowType = false;
+};
+
+UENUM(BlueprintType)
+enum class SignatureScheme : uint8
+{
+	Ed25519 UMETA(DisplayName = "Ed25519"),
+	Secp256k1 UMETA(DisplayName = "Secp256k1")
+};
+
+USTRUCT(BlueprintType)
+struct FSignaturePubkeyPair
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Signature")
+	SignatureScheme Scheme;
+
+	// Base64-encoded signature
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Signature")
+	TArray<uint8> Signature;
+
+	// Base64-encoded public key
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Signature")
+	FString PubKey;
+};
+
+USTRUCT(BlueprintType)
+struct FSerializedSignature
+{
+	GENERATED_BODY()
+
+	// flag || signature || pubkey bytes, as base-64 encoded string
+	// Signature is committed to the intent message of the transaction data, as base-64 encoded string
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Signature")
+	FString Value;
 };

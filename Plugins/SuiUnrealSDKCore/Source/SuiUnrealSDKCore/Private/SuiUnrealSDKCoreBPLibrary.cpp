@@ -6,6 +6,8 @@
 #include "VaRestSubsystem.h"
 #include "LibsodiumUE.h"
 #include "Bip39UE.h"
+#include "Signature/IntentHelper.h"
+#include "Signature/Signer.h"
 
 USuiUnrealSDKCoreBPLibrary::USuiUnrealSDKCoreBPLibrary(const FObjectInitializer& ObjectInitializer)
 : Super(ObjectInitializer)
@@ -73,16 +75,15 @@ void USuiUnrealSDKCoreBPLibrary::SignAndExecuteTransactionBlock(const FString& E
 		const auto VaJsonValue = GEngine->GetEngineSubsystem<UVaRestSubsystem>()->ConstructJsonValue(RpcResponse.Result);
 		OnResult.ExecuteIfBound(VaJsonValue);
 		});
+
+	TArray<uint8> MessageWithIntent;
+	FIntentHelper::GetMessageWithIntent(TxBytes, MessageWithIntent);
 	
-	TArray<uint8> SignatureBytes;
-	TArray<uint8> TxDecodedBytes;
-	FBase64::Decode(TxBytes, TxDecodedBytes);
+	FSerializedSignature SerializedSignature;
+	FSigner::SignData(KeyPair, MessageWithIntent, SerializedSignature);
 	
-	FLibsodiumUEModule::Get().Sign(SignatureBytes, TxDecodedBytes, KeyPair.PrivateKey);
-	
-	const FString Signature = FBase64::Encode(SignatureBytes);
 	TArray<FString> Signatures;
-	Signatures.Add(Signature);
+	Signatures.Add(SerializedSignature.Value);
 	
 	Client.ExecuteTransactionBlock(TxBytes, Signatures, Options, ExecuteTransactionRequestType, RpcSuccessDelegate);
 }
