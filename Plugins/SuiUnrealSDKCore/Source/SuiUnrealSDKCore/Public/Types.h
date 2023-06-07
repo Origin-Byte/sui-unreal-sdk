@@ -144,9 +144,8 @@ UENUM(BlueprintType, Category = "Sui")
 enum class ESuiExecuteTransactionRequestType : uint8
 {
 	None = 0,
-	ImmediateReturn = 1,
-	WaitForTxCert = 2,
-	WaitForEffectsCert = 3,
+	WaitForEffectsCert = 1,
+	WaitForLocalExecution = 2,
 	Count UMETA(Hidden)
 };
 ENUM_RANGE_BY_COUNT(ESuiExecuteTransactionRequestType, ESuiExecuteTransactionRequestType::Count);
@@ -181,4 +180,31 @@ struct FTransactionBlockResponseOptions
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sui | TransactionBlockResponseOptions")
 	bool bShowRawInput = false;
+};
+
+USTRUCT(BlueprintType)
+struct FObjectDataOptions
+{
+	GENERATED_BODY()
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Sui | FObjectDataOptions")
+	bool bShowBcs = false;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Sui | FObjectDataOptions")
+	bool bShowContent = false;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Sui | FObjectDataOptions")
+	bool bShowDisplay = false;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Sui | FObjectDataOptions")
+	bool bShowOwner = false;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Sui | FObjectDataOptions")
+	bool bShowPreviousTransaction = false;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Sui | FObjectDataOptions")
+	bool bShowStorageRebate = false;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Sui | FObjectDataOptions")
+	bool bShowType = false;
 };
