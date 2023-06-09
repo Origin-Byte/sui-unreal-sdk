@@ -27,6 +27,12 @@ class USuiUnrealSDKCoreBPLibrary : public UBlueprintFunctionLibrary
 	UFUNCTION(BlueprintCallable, Category = "Sui | Transaction")
 	static void MoveCall(const FString& Endpoint, const FString& Signer, const FString& PackageObjectId, const FString& Module, const FString& Function,
 		const TArray<FString>& TypeArguments, const TArray<UVaRestJsonValue*>& Arguments, const FString& Gas, const FString& GasBudget, const FRpcResultReceivedDelegate& OnResult);
+
+	UFUNCTION(BlueprintCallable, Category = "Sui | Transaction")
+	static void MoveCallWithTransaction(const FString& Endpoint, const FMoveCallTransaction& Transaction, const FRpcResultReceivedDelegate& OnResultReceived);
+
+	UFUNCTION(BlueprintCallable, Category = "Sui | Transaction")
+	static void MintNftMoveCall(const FString& Endpoint, const FMintNft& MintTransaction, const FRpcResultReceivedDelegate& OnResultReceived);
 	
 	UFUNCTION(BlueprintCallable, Category = "Sui | Transaction")
 	static void SignAndExecuteTransactionBlock(const FString& Endpoint, const FString& TxBytes, const FEd25519KeyPair KeyPair, const FTransactionBlockResponseOptions& Options, ESuiExecuteTransactionRequestType ExecuteTransactionRequestType, const FRpcResultReceivedDelegate& OnResult);
@@ -87,6 +93,5 @@ class USuiUnrealSDKCoreBPLibrary : public UBlueprintFunctionLibrary
 
 	UFUNCTION(BlueprintCallable, Category = "Sui | Read")
 	static void GetTransactionBlock(const FString& Endpoint, const FString& Digest, const FTransactionBlockResponseOptions& Options, const FRpcResultReceivedDelegate& OnResultReceived);
-
 };
 

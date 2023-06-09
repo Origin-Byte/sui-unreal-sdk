@@ -3,6 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "VaRestJsonValue.h"
+#include "VaRestSubsystem.h"
 #include "Types.generated.h"
 
 USTRUCT(BlueprintType)
@@ -240,4 +242,121 @@ struct FSerializedSignature
 	// Signature is committed to the intent message of the transaction data, as base-64 encoded string
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Signature")
 	FString Value;
+};
+
+USTRUCT(BlueprintType)
+struct FMoveCallTransaction
+{
+	GENERATED_USTRUCT_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Signer;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString PackageObjectId;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Module;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Function;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<FString> TypeArguments;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<UVaRestJsonValue*> Arguments; 
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Gas;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString GasBudget;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	ESuiExecuteTransactionRequestType RequestType;
+};
+
+USTRUCT(BlueprintType)
+struct FMintNft
+{
+	GENERATED_USTRUCT_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Signer;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString PackageObjectId;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString ModuleName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Function;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Name;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Description;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Url;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TMap<FString, FString> Attributes;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Recipient;
+
+	FORCEINLINE FMoveCallTransaction BuildMoveCallTransaction(const FString& Gas = TEXT(""), const FString& GasBudget = TEXT("10000000"), ESuiExecuteTransactionRequestType RequestType = ESuiExecuteTransactionRequestType::WaitForLocalExecution)
+	{
+		FMoveCallTransaction MoveCallTransaction;
+		MoveCallTransaction.Signer = Signer;
+		MoveCallTransaction.PackageObjectId = PackageObjectId;
+		MoveCallTransaction.Module = ModuleName;
+		MoveCallTransaction.Function = Function;
+		
+		MoveCallTransaction.Arguments = BuildArguments();
+		
+		MoveCallTransaction.Gas = Gas;
+		MoveCallTransaction.GasBudget = GasBudget;
+		MoveCallTransaction.RequestType = RequestType;
+
+		return MoveCallTransaction;
+	}
+
+	TArray<UVaRestJsonValue*> BuildArguments() const
+	{
+		TArray<UVaRestJsonValue*> Arguments;
+		UVaRestSubsystem* VaRestSubSystem = GEngine->GetEngineSubsystem<UVaRestSubsystem>();
+
+		// Add Name
+		Arguments.Add(VaRestSubSystem->ConstructJsonValueString(Name));
+
+		// Add Description
+		Arguments.Add(VaRestSubSystem->ConstructJsonValueString(Description));
+
+		// Add Url
+		Arguments.Add(VaRestSubSystem->ConstructJsonValueString(Url));
+
+		// Add Attributes
+		TArray<UVaRestJsonValue*> KeysArray;
+		TArray<UVaRestJsonValue*> ValuesArray;
+
+		for (const auto& Attribute : Attributes)
+		{
+			KeysArray.Add(VaRestSubSystem->ConstructJsonValueString(Attribute.Key));
+			ValuesArray.Add(VaRestSubSystem->ConstructJsonValueString(Attribute.Value));
+		}
+
+		// Add Keys and Values arrays to Arguments
+		Arguments.Add(VaRestSubSystem->ConstructJsonValueArray(KeysArray));
+		Arguments.Add(VaRestSubSystem->ConstructJsonValueArray(ValuesArray));
+
+		// Add Recipient
+		Arguments.Add(VaRestSubSystem->ConstructJsonValueString(Recipient));
+
+		return Arguments;
+	}
 };

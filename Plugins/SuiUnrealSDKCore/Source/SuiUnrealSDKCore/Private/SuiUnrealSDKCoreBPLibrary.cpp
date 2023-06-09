@@ -327,3 +327,22 @@ void USuiUnrealSDKCoreBPLibrary::GetTransactionBlock(const FString& Endpoint, co
 		});
 	Client.GetTransactionBlock(Digest, Options, RpcSuccessDelegate);
 }
+
+void USuiUnrealSDKCoreBPLibrary::MoveCallWithTransaction(const FString& Endpoint, const FMoveCallTransaction& Transaction, const FRpcResultReceivedDelegate& OnResult)
+{
+	MoveCall(Endpoint, Transaction.Signer, Transaction.PackageObjectId, Transaction.Module, Transaction.Function, Transaction.TypeArguments, Transaction.Arguments, Transaction.Gas, Transaction.GasBudget, OnResult);
+}
+
+void USuiUnrealSDKCoreBPLibrary::MintNftMoveCall(const FString& Endpoint, const FMintNft& MintTransaction, const FRpcResultReceivedDelegate& OnResult)
+{
+	FMoveCallTransaction MoveTransaction;
+	MoveTransaction.Signer = MintTransaction.Signer;
+	MoveTransaction.PackageObjectId = MintTransaction.PackageObjectId;
+	MoveTransaction.Module = MintTransaction.ModuleName;
+	MoveTransaction.Function = MintTransaction.Function;
+	MoveTransaction.Arguments = MintTransaction.BuildArguments();
+	MoveTransaction.Gas = TEXT(""); // Default to empty string
+	MoveTransaction.GasBudget = TEXT("10000000"); // Default to 10000
+
+	MoveCallWithTransaction(Endpoint, MoveTransaction, OnResult);
+}
