@@ -8,9 +8,9 @@ Connecting Unreal game developers to Sui blockchain and Origin Byte's NFT ecosys
 	- Call Sui Move contracts
 	- Sign, Batch and Execute Transactions,
 	- Transfer, Split and Merge SUI coins and objects
-	- Get Historical Event Data
+	- Mint Origin Byte NFTs
 - Restore Ed25519 Keypairs from BIP39 mnemonics and Create new Keypairs
-- Tested on Windows desktop with Sui version 0.10.0
+- Tested on Windows desktop with Sui version 1.13.0 and Nft Protocol 1.2.0 on Testnet
 - Works with Unreal Engine 5
 
 # Getting Started
@@ -39,7 +39,8 @@ C++:
 	RpcSuccessDelegate.BindLambda([OnResult](const FJsonRpcValidResponse& RpcResponse) {
 		UE_LOG(LogTemp, Log, TEXT("Response received."));
 	});
-	Client.GetObject(ObjectId, RpcSuccessDelegate);
+	FObjectDataOptions Options;
+	Client.GetObject(ObjectId, Options, RpcSuccessDelegate);
 ```
 ## RPC Historical Event Read API
 ![Historical Event Read API Blueprints](/imgs/event_read_api_nodes.png "Historical Event Read API Blueprints")
@@ -47,9 +48,8 @@ C++:
 ## Transaction API
 ![Transaction API Blueprints](/imgs/transaction_api_nodes.png "Transaction API Blueprints")
 
-Call Mint Devnet NFT move contract:
-
-![Mint Devnet NFT Blueprints](/imgs/mint_devnet_nft.png "Mint Devnet NFT Blueprints")
+Prepare mint Nft transaction
+![Mint Nft](/imgs/mint_nft.png "Mint Nft")
 
 Sign And Execute Transactions:
 
@@ -59,17 +59,17 @@ Sign And Execute Transactions:
 ![Crypto Helper API Blueprints](/imgs/crypto_helpers_nodes.png "Crypto Helper API Blueprints")
 
 # Copy paste ready Blueprint Nodes
-[Copy paste ready Blueprint Nodes](https://blueprintue.com/blueprint/wcm2f6op/)
+[Copy paste ready Blueprint Nodes](https://blueprintue.com/blueprint/r_twkgi2/)
+
 
 # Dependencies
-The SDK Plugin currently depends on the [VaRest](https://www.unrealengine.com/marketplace/en-US/product/varest-plugin) plugin available from the marketplace.
+The SDK Plugin depends on the [VaRest](https://www.unrealengine.com/marketplace/en-US/product/varest-plugin) plugin available from the marketplace.
 All the other Dependencies can be found in the Plugins folder.
 
 # Roadmap
 - More platform support (iOS, Android, Mac)
 - Streaming RPC client, Event subscription
 - More RPC APIs and type bindings
-- WalletConnect support
 - More samples
-- Origin-Byte NFT ecosystem access from Unreal Engine
+- More NFT protocol bindings for Unreal Engine
 - Higher level APIs, easy-to-use Blueprint nodes
