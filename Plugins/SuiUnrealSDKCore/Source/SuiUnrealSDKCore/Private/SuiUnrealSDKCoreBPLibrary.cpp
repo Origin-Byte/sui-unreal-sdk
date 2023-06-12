@@ -26,7 +26,9 @@ void USuiUnrealSDKCoreBPLibrary::GetObject(const FString& Endpoint, const FStrin
 	Client.GetObject(ObjectId, Options, RpcSuccessDelegate);
 }
 
-void USuiUnrealSDKCoreBPLibrary::GetObjectsOwnedByAddress(const FString& Endpoint, const FString& Address, const FRpcResultReceivedDelegate& OnResult)
+void USuiUnrealSDKCoreBPLibrary::GetOwnedObjects(const FString& Endpoint, const FString& Address,
+	const FObjectResponseQuery& ResponseQuery, const FString& CursorId, int64 Limit,
+	const FRpcResultReceivedDelegate& OnResult)
 {
 	auto Client = FRpcClient(Endpoint);
 	FRpcSuccessDelegate RpcSuccessDelegate;
@@ -34,18 +36,7 @@ void USuiUnrealSDKCoreBPLibrary::GetObjectsOwnedByAddress(const FString& Endpoin
 		const auto VaJsonValue = GEngine->GetEngineSubsystem<UVaRestSubsystem>()->ConstructJsonValue(RpcResponse.Result);
 		OnResult.ExecuteIfBound(VaJsonValue);
 		});
-	Client.GetObjectsOwnedByAddress(Address, RpcSuccessDelegate);
-}
-
-void USuiUnrealSDKCoreBPLibrary::GetObjectsOwnedByObject(const FString& Endpoint, const FString& ObjectId, const FRpcResultReceivedDelegate& OnResult)
-{
-	auto Client = FRpcClient(Endpoint);
-	FRpcSuccessDelegate RpcSuccessDelegate;
-	RpcSuccessDelegate.BindLambda([OnResult](const FJsonRpcValidResponse& RpcResponse) {
-		const auto VaJsonValue = GEngine->GetEngineSubsystem<UVaRestSubsystem>()->ConstructJsonValue(RpcResponse.Result);
-		OnResult.ExecuteIfBound(VaJsonValue);
-		});
-	Client.GetObjectsOwnedByObject(ObjectId, RpcSuccessDelegate);
+	Client.GetOwnedObjects(Address, ResponseQuery, CursorId, Limit, RpcSuccessDelegate);
 }
 
 void USuiUnrealSDKCoreBPLibrary::MoveCall(const FString& Endpoint, const FString& Signer, const FString& PackageObjectId, const FString& Module, const FString& Function,

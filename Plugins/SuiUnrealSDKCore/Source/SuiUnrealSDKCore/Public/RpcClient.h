@@ -18,8 +18,7 @@ public:
 	FORCEINLINE const FString& GetEndpoint() const { return Endpoint; }
 	
 	void GetObject(const FString& ObjectId, const FObjectDataOptions& Options, const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate());
-	void GetObjectsOwnedByAddress(const FString& Address, const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate());
-	void GetObjectsOwnedByObject(const FString& ObjectId, const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate());
+	void GetOwnedObjects(const FString& Address, const FObjectResponseQuery& ResponseQuery, const FString& CursorId, const TOptional<uint64> Limit, const FRpcSuccessDelegate& SuccessDelegate);
 
 	void MoveCall(const FString& Signer, const FString& PackageObjectId, const FString& Module, const FString& Function,
 		const TArray<FString>& TypeArguments, const TArray<TSharedPtr<FJsonValue>>& Arguments, const FString& Gas, const FString& GasBudget, const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate());

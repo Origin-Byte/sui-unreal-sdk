@@ -37,20 +37,44 @@ void FRpcClient::GetObject(const FString& ObjectId, const FObjectDataOptions& Op
 	SendRequest(Request, SuccessDelegate);
 }
 
-void FRpcClient::GetObjectsOwnedByAddress(const FString& Address, const FRpcSuccessDelegate& SuccessDelegate)
+
+void FRpcClient::GetOwnedObjects(const FString& Address, const FObjectResponseQuery& ResponseQuery, const FString& CursorId, const TOptional<uint64> Limit, const FRpcSuccessDelegate& SuccessDelegate)
 {
 	TArray<TSharedPtr<FJsonValue>> Params;
 	Params.Add(MakeShareable(new FJsonValueString(Address)));
-	
-	const FJsonRpcRequest Request(TEXT("sui_getObjectsOwnedByAddress"), Params);
-	SendRequest(Request, SuccessDelegate);
-}
 
-void FRpcClient::GetObjectsOwnedByObject(const FString& ObjectId, const FRpcSuccessDelegate& SuccessDelegate)
-{
-	TArray<TSharedPtr<FJsonValue>> Params;
-	Params.Add(MakeShareable(new FJsonValueString(ObjectId)));
-	const FJsonRpcRequest Request(TEXT("sui_getObjectsOwnedByObject"), Params);
+	const TSharedPtr<FJsonObject> QueryParamsJson = MakeShared<FJsonObject>();
+	const TSharedPtr<FJsonObject> FilterJson = FJsonObjectConverter::UStructToJsonObject(ResponseQuery.Filter);
+	QueryParamsJson->SetObjectField("filter", FilterJson);
+
+	const TSharedPtr<FJsonObject> OptionsObject = MakeShared<FJsonObject>();
+	OptionsObject->SetBoolField("showBcs", ResponseQuery.Options.bShowBcs);
+	OptionsObject->SetBoolField("showContent", ResponseQuery.Options.bShowContent);
+	OptionsObject->SetBoolField("showDisplay", ResponseQuery.Options.bShowDisplay);
+	OptionsObject->SetBoolField("showOwner", ResponseQuery.Options.bShowOwner);
+	OptionsObject->SetBoolField("showPreviousTransaction", ResponseQuery.Options.bShowPreviousTransaction);
+	OptionsObject->SetBoolField("showStorageRebate", ResponseQuery.Options.bShowStorageRebate);
+	OptionsObject->SetBoolField("showType", ResponseQuery.Options.bShowType);
+
+	QueryParamsJson->SetObjectField("options", OptionsObject);
+
+	Params.Add(MakeShareable(new FJsonValueObject(QueryParamsJson)));
+
+	if (!CursorId.IsEmpty())
+	{
+		Params.Add(MakeShareable(new FJsonValueString(CursorId)));
+	}
+	else
+	{
+		Params.Add(MakeShareable(new FJsonValueNull()));
+	}
+
+	if (Limit.IsSet())
+	{
+		Params.Add(MakeShareable(new FJsonValueNumberString(FUtil::UInt64ToFString(Limit.GetValue()))));
+	}
+	
+	const FJsonRpcRequest Request(TEXT("suix_getOwnedObjects"), Params);
 	SendRequest(Request, SuccessDelegate);
 }
 

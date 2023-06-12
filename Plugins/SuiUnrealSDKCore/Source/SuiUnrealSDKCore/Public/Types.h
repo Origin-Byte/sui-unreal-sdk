@@ -159,7 +159,7 @@ namespace ESuiExecuteTransactionRequestTypeNS
 }
 
 USTRUCT(BlueprintType)
-struct FTransactionBlockResponseOptions
+struct SUIUNREALSDKCORE_API FTransactionBlockResponseOptions
 {
 	GENERATED_BODY()
 
@@ -183,7 +183,7 @@ struct FTransactionBlockResponseOptions
 };
 
 USTRUCT(BlueprintType)
-struct FObjectDataOptions
+struct SUIUNREALSDKCORE_API FObjectDataOptions
 {
 	GENERATED_BODY()
 
@@ -217,7 +217,7 @@ enum class SignatureScheme : uint8
 };
 
 USTRUCT(BlueprintType)
-struct FSignaturePubkeyPair
+struct SUIUNREALSDKCORE_API FSignaturePubkeyPair
 {
 	GENERATED_BODY()
 
@@ -234,7 +234,7 @@ struct FSignaturePubkeyPair
 };
 
 USTRUCT(BlueprintType)
-struct FSerializedSignature
+struct SUIUNREALSDKCORE_API FSerializedSignature
 {
 	GENERATED_BODY()
 
@@ -245,7 +245,7 @@ struct FSerializedSignature
 };
 
 USTRUCT(BlueprintType)
-struct FMoveCallTransaction
+struct SUIUNREALSDKCORE_API FMoveCallTransaction
 {
 	GENERATED_USTRUCT_BODY()
 
@@ -278,7 +278,7 @@ struct FMoveCallTransaction
 };
 
 USTRUCT(BlueprintType)
-struct FMintNft
+struct SUIUNREALSDKCORE_API FMintNft
 {
 	GENERATED_USTRUCT_BODY()
 
@@ -359,4 +359,76 @@ struct FMintNft
 
 		return Arguments;
 	}
+};
+
+USTRUCT(BlueprintType)
+struct SUIUNREALSDKCORE_API FMoveModule
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Module;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Package;
+};
+
+USTRUCT(BlueprintType)
+struct SUIUNREALSDKCORE_API FSuiObjectDataFilterCondition
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<UVaRestJsonValue*> MatchAll;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<UVaRestJsonValue*> MatchAny;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<UVaRestJsonValue*> MatchNone;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Package;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FMoveModule MoveModule;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString StructType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString AddressOwner;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString ObjectOwner;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString ObjectId;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<FString> ObjectIds;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Version;
+};
+
+USTRUCT(BlueprintType)
+struct SUIUNREALSDKCORE_API FSuiObjectDataFilter
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UVaRestJsonValue* FilterCondition;
+};
+
+USTRUCT(BlueprintType)
+struct SUIUNREALSDKCORE_API FObjectResponseQuery
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FSuiObjectDataFilter Filter;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FObjectDataOptions Options;
 };

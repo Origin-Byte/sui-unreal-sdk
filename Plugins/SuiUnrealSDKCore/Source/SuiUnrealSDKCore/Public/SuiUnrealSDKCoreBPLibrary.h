@@ -19,10 +19,7 @@ class USuiUnrealSDKCoreBPLibrary : public UBlueprintFunctionLibrary
 	static void GetObject(const FString& Endpoint, const FString& ObjectId, const FObjectDataOptions& Options, const FRpcResultReceivedDelegate& OnResult);
 
 	UFUNCTION(BlueprintCallable, Category = "Sui | Read")
-	static void GetObjectsOwnedByAddress(const FString& Endpoint, const FString& Address, const FRpcResultReceivedDelegate& OnResult);
-
-	UFUNCTION(BlueprintCallable, Category = "Sui | Read")
-	static void GetObjectsOwnedByObject(const FString& Endpoint, const FString& ObjectId, const FRpcResultReceivedDelegate& OnResult);
+	static void GetOwnedObjects(const FString& Endpoint, const FString& Address, const FObjectResponseQuery& ResponseQuery, const FString& CursorId, int64 Limit, const FRpcResultReceivedDelegate& OnResult);
 
 	UFUNCTION(BlueprintCallable, Category = "Sui | Transaction")
 	static void MoveCall(const FString& Endpoint, const FString& Signer, const FString& PackageObjectId, const FString& Module, const FString& Function,
