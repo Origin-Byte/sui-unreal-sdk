@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "VaRestJsonValue.h"
 #include "VaRestSubsystem.h"
+#include "CompositeDataFilter.h"
 #include "Types.generated.h"
 
 USTRUCT(BlueprintType)
@@ -362,72 +363,12 @@ struct SUIUNREALSDKCORE_API FMintNft
 };
 
 USTRUCT(BlueprintType)
-struct SUIUNREALSDKCORE_API FMoveModule
-{
-	GENERATED_BODY()
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FString Module;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FString Package;
-};
-
-USTRUCT(BlueprintType)
-struct SUIUNREALSDKCORE_API FSuiObjectDataFilterCondition
-{
-	GENERATED_BODY()
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<UVaRestJsonValue*> MatchAll;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<UVaRestJsonValue*> MatchAny;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<UVaRestJsonValue*> MatchNone;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FString Package;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FMoveModule MoveModule;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FString StructType;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FString AddressOwner;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FString ObjectOwner;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FString ObjectId;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<FString> ObjectIds;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FString Version;
-};
-
-USTRUCT(BlueprintType)
-struct SUIUNREALSDKCORE_API FSuiObjectDataFilter
-{
-	GENERATED_BODY()
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UVaRestJsonValue* FilterCondition;
-};
-
-USTRUCT(BlueprintType)
 struct SUIUNREALSDKCORE_API FObjectResponseQuery
 {
 	GENERATED_BODY()
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FSuiObjectDataFilter Filter;
+	UDataFilterComponent* Filter;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FObjectDataOptions Options;

@@ -44,8 +44,8 @@ void FRpcClient::GetOwnedObjects(const FString& Address, const FObjectResponseQu
 	Params.Add(MakeShareable(new FJsonValueString(Address)));
 
 	const TSharedPtr<FJsonObject> QueryParamsJson = MakeShared<FJsonObject>();
-	const TSharedPtr<FJsonObject> FilterJson = FJsonObjectConverter::UStructToJsonObject(ResponseQuery.Filter);
-	QueryParamsJson->SetObjectField("filter", FilterJson);
+	const auto FilterJson = ResponseQuery.Filter->ToJson();
+	QueryParamsJson->SetField("filter", FilterJson);
 
 	const TSharedPtr<FJsonObject> OptionsObject = MakeShared<FJsonObject>();
 	OptionsObject->SetBoolField("showBcs", ResponseQuery.Options.bShowBcs);
