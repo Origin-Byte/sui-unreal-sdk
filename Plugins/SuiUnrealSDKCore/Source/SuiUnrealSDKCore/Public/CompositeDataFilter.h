@@ -41,7 +41,7 @@ public:
 	virtual TSharedPtr<FJsonValue> ToJson() const override;
 
 	UFUNCTION(BlueprintCallable, Category = "Sui | Package Data Filter", meta = (HidePin = "WorldContextObject", DefaultToSelf = "WorldContextObject"))
-	static UPackageDataFilter* CreatePackageDataFilter(UObject* WorldContextObject, const FString& InPackage);
+	static UPackageDataFilter* MakePackageDataFilter(UObject* WorldContextObject, const FString& InPackage);
 };
 
 UCLASS(BlueprintType)
@@ -59,7 +59,7 @@ public:
 	virtual TSharedPtr<FJsonValue> ToJson() const override;
 
 	UFUNCTION(BlueprintCallable, Category = "Sui | Move Module Data Filter", meta = (HidePin = "WorldContextObject", DefaultToSelf = "WorldContextObject"))
-	static UMoveModuleDataFilter* CreateMoveModuleDataFilter(UObject* WorldContextObject, const FString& InModuleName, const FString& InPackage);
+	static UMoveModuleDataFilter* MakeMoveModuleDataFilter(UObject* WorldContextObject, const FString& InModuleName, const FString& InPackage);
 };
 
 UCLASS(BlueprintType)
@@ -74,7 +74,7 @@ public:
 	virtual TSharedPtr<FJsonValue> ToJson() const override;
 
 	UFUNCTION(BlueprintCallable, Category = "Sui | Struct Type Data Filter", meta = (HidePin = "WorldContextObject", DefaultToSelf = "WorldContextObject"))
-	static UStructTypeDataFilter* CreateStructTypeDataFilter(UObject* WorldContextObject, const FString& InStructType);
+	static UStructTypeDataFilter* MakeStructTypeDataFilter(UObject* WorldContextObject, const FString& InStructType);
 };
 
 UCLASS(BlueprintType)
@@ -89,7 +89,7 @@ public:
 	virtual TSharedPtr<FJsonValue> ToJson() const override;
 
 	UFUNCTION(BlueprintCallable, Category = "Sui | Address Data Filter", meta = (HidePin = "WorldContextObject", DefaultToSelf = "WorldContextObject"))
-	static UAddressDataFilter* CreateAddressDataFilter(UObject* WorldContextObject, const FString& InAddress);
+	static UAddressDataFilter* MakeAddressDataFilter(UObject* WorldContextObject, const FString& InAddress);
 };
 
 // Composite filters
@@ -105,7 +105,7 @@ public:
 	virtual TSharedPtr<FJsonValue> ToJson() const override;
 
 	UFUNCTION(BlueprintCallable, Category = "Sui | Match All Data Filter", meta = (HidePin = "WorldContextObject", DefaultToSelf = "WorldContextObject"))
-	static UMatchAllDataFilter* CreateMatchAllDataFilter(UObject* WorldContextObject, const TArray<UDataFilterComponent*>& InFilters);
+	static UMatchAllDataFilter* MakeMatchAllDataFilter(UObject* WorldContextObject, const TArray<UDataFilterComponent*>& InFilters);
 };
 
 UCLASS(BlueprintType)
@@ -120,7 +120,7 @@ public:
 	virtual TSharedPtr<FJsonValue> ToJson() const override;
 
 	UFUNCTION(BlueprintCallable, Category = "Sui | Match Any Data Filter", meta = (HidePin = "WorldContextObject", DefaultToSelf = "WorldContextObject"))
-	static UMatchAnyDataFilter* CreateMatchAnyDataFilter(UObject* WorldContextObject, const TArray<UDataFilterComponent*>& InFilters);
+	static UMatchAnyDataFilter* MakeMatchAnyDataFilter(UObject* WorldContextObject, const TArray<UDataFilterComponent*>& InFilters);
 };
 
 UCLASS(BlueprintType)
@@ -135,5 +135,5 @@ public:
 	virtual TSharedPtr<FJsonValue> ToJson() const override;
 
 	UFUNCTION(BlueprintCallable, Category = "Sui | Match None Data Filter", meta = (HidePin = "WorldContextObject", DefaultToSelf = "WorldContextObject"))
-	static UMatchNoneDataFilter* CreateMatchNoneDataFilter(UObject* WorldContextObject, const TArray<UDataFilterComponent*>& InFilters);
+	static UMatchNoneDataFilter* MakeMatchNoneDataFilter(UObject* WorldContextObject, const TArray<UDataFilterComponent*>& InFilters);
 };

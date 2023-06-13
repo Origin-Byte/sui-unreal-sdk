@@ -22,7 +22,7 @@ TSharedPtr<FJsonValue> UPackageDataFilter::ToJson() const
 	return MakeShareable(new FJsonValueObject(JsonObj));
 }
 
-UPackageDataFilter* UPackageDataFilter::CreatePackageDataFilter(UObject* WorldContextObject, const FString& InPackage)
+UPackageDataFilter* UPackageDataFilter::MakePackageDataFilter(UObject* WorldContextObject, const FString& InPackage)
 {
 	const auto NewFilter = NewObject<UPackageDataFilter>(WorldContextObject);
 	NewFilter->Package = InPackage;
@@ -37,7 +37,7 @@ TSharedPtr<FJsonValue> UMoveModuleDataFilter::ToJson() const
 	return MakeShareable(new FJsonValueObject(JsonObj));
 }
 
-UMoveModuleDataFilter* UMoveModuleDataFilter::CreateMoveModuleDataFilter(UObject* WorldContextObject,
+UMoveModuleDataFilter* UMoveModuleDataFilter::MakeMoveModuleDataFilter(UObject* WorldContextObject,
 	const FString& InModuleName, const FString& InPackage)
 {
 	const auto NewFilter = NewObject<UMoveModuleDataFilter>(WorldContextObject);
@@ -53,7 +53,7 @@ TSharedPtr<FJsonValue> UStructTypeDataFilter::ToJson() const
 	return MakeShareable(new FJsonValueObject(JsonObj));
 }
 
-UStructTypeDataFilter* UStructTypeDataFilter::CreateStructTypeDataFilter(UObject* WorldContextObject,
+UStructTypeDataFilter* UStructTypeDataFilter::MakeStructTypeDataFilter(UObject* WorldContextObject,
 	const FString& InStructType)
 {
 	const auto NewFilter = NewObject<UStructTypeDataFilter>(WorldContextObject);
@@ -68,7 +68,7 @@ TSharedPtr<FJsonValue> UAddressDataFilter::ToJson() const
 	return MakeShareable(new FJsonValueObject(JsonObj));
 }
 
-UAddressDataFilter* UAddressDataFilter::CreateAddressDataFilter(UObject* WorldContextObject, const FString& InAddress)
+UAddressDataFilter* UAddressDataFilter::MakeAddressDataFilter(UObject* WorldContextObject, const FString& InAddress)
 {
 	const auto NewFilter = NewObject<UAddressDataFilter>(WorldContextObject);
 	NewFilter->Address = InAddress;
@@ -87,7 +87,7 @@ TSharedPtr<FJsonValue> UMatchAllDataFilter::ToJson() const
 	return MakeShareable(new FJsonValueObject(JsonObj));
 }
 
-UMatchAllDataFilter* UMatchAllDataFilter::CreateMatchAllDataFilter(UObject* WorldContextObject,
+UMatchAllDataFilter* UMatchAllDataFilter::MakeMatchAllDataFilter(UObject* WorldContextObject,
                                                                const TArray<UDataFilterComponent*>& InFilters)
 {
 	UMatchAllDataFilter* NewFilter = NewObject<UMatchAllDataFilter>(WorldContextObject);
@@ -107,7 +107,7 @@ TSharedPtr<FJsonValue> UMatchAnyDataFilter::ToJson() const
 	return MakeShareable(new FJsonValueObject(JsonObj));
 }
 
-UMatchAnyDataFilter* UMatchAnyDataFilter::CreateMatchAnyDataFilter(UObject* WorldContextObject,
+UMatchAnyDataFilter* UMatchAnyDataFilter::MakeMatchAnyDataFilter(UObject* WorldContextObject,
 	const TArray<UDataFilterComponent*>& InFilters)
 {
 	UMatchAnyDataFilter* NewFilter = NewObject<UMatchAnyDataFilter>(WorldContextObject);
@@ -127,7 +127,7 @@ TSharedPtr<FJsonValue> UMatchNoneDataFilter::ToJson() const
 	return MakeShareable(new FJsonValueObject(JsonObj));
 }
 
-UMatchNoneDataFilter* UMatchNoneDataFilter::CreateMatchNoneDataFilter(UObject* WorldContextObject,
+UMatchNoneDataFilter* UMatchNoneDataFilter::MakeMatchNoneDataFilter(UObject* WorldContextObject,
 	const TArray<UDataFilterComponent*>& InFilters)
 {
 	UMatchNoneDataFilter* NewFilter = NewObject<UMatchNoneDataFilter>(WorldContextObject);
