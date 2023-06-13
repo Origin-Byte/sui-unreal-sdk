@@ -39,8 +39,20 @@ void USuiUnrealSDKCoreBPLibrary::GetOwnedObjects(const FString& Endpoint, const 
 	Client.GetOwnedObjects(Address, ResponseQuery, CursorId, Limit, RpcSuccessDelegate);
 }
 
+// void USuiUnrealSDKCoreBPLibrary::GetObjectsFromOriginByteKiosk(const FString& Endpoint, const FString& Address,
+// 	const FString& KioskType, const FString& ObjectType, int64 Limit, const FRpcResultReceivedDelegate& OnResult)
+// {
+// 	auto Client = FRpcClient(Endpoint);
+// 	FRpcSuccessDelegate RpcSuccessDelegate;
+// 	RpcSuccessDelegate.BindLambda([OnResult](const FJsonRpcValidResponse& RpcResponse) {
+// 		const auto VaJsonValue = GEngine->GetEngineSubsystem<UVaRestSubsystem>()->ConstructJsonValue(RpcResponse.Result);
+// 		OnResult.ExecuteIfBound(VaJsonValue);
+// 		});
+// 	Client.GetOwnedObjects(Address, ResponseQuery, CursorId, Limit, RpcSuccessDelegate);
+// }
+
 void USuiUnrealSDKCoreBPLibrary::MoveCall(const FString& Endpoint, const FString& Signer, const FString& PackageObjectId, const FString& Module, const FString& Function,
-		const TArray<FString>& TypeArguments, const TArray<UVaRestJsonValue*>& Arguments, const FString& Gas, const FString& GasBudget, const FRpcResultReceivedDelegate& OnResult)
+                                          const TArray<FString>& TypeArguments, const TArray<UVaRestJsonValue*>& Arguments, const FString& Gas, const FString& GasBudget, const FRpcResultReceivedDelegate& OnResult)
 {
 	auto Client = FRpcClient(Endpoint);
 	FRpcSuccessDelegate RpcSuccessDelegate;

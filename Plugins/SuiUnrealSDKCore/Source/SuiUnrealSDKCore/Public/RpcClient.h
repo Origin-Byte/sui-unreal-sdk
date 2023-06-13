@@ -19,7 +19,8 @@ public:
 	
 	void GetObject(const FString& ObjectId, const FObjectDataOptions& Options, const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate());
 	void GetOwnedObjects(const FString& Address, const FObjectResponseQuery& ResponseQuery, const FString& CursorId, const TOptional<uint64> Limit, const FRpcSuccessDelegate& SuccessDelegate);
-
+	//void GetObjectsFromOriginByteKiosk(const FString& Address, const FString& KioskType, const FString& ObjectType, int64 Limit, const FRpcSuccessDelegate& OnResult);
+	
 	void MoveCall(const FString& Signer, const FString& PackageObjectId, const FString& Module, const FString& Function,
 		const TArray<FString>& TypeArguments, const TArray<TSharedPtr<FJsonValue>>& Arguments, const FString& Gas, const FString& GasBudget, const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate());
 	void ExecuteTransactionBlock(const FString& TxBytes, const TArray<FString>& SerializedSignatures, const FTransactionBlockResponseOptions& Options, ESuiExecuteTransactionRequestType ExecuteTransactionRequestType, const FRpcSuccessDelegate& SuccessDelegate = FRpcSuccessDelegate());

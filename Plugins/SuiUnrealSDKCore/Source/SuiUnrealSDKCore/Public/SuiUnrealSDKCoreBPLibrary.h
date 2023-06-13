@@ -21,6 +21,9 @@ class USuiUnrealSDKCoreBPLibrary : public UBlueprintFunctionLibrary
 	UFUNCTION(BlueprintCallable, Category = "Sui | Read")
 	static void GetOwnedObjects(const FString& Endpoint, const FString& Address, const FObjectResponseQuery& ResponseQuery, const FString& CursorId, int64 Limit, const FRpcResultReceivedDelegate& OnResult);
 
+	// UFUNCTION(BlueprintCallable, Category = "Sui | Read")
+	// static void GetObjectsFromOriginByteKiosk(const FString& Endpoint, const FString& Address, const FString& KioskType, const FString& ObjectType, int64 Limit, const FRpcResultReceivedDelegate& OnResult);
+	//
 	UFUNCTION(BlueprintCallable, Category = "Sui | Transaction")
 	static void MoveCall(const FString& Endpoint, const FString& Signer, const FString& PackageObjectId, const FString& Module, const FString& Function,
 		const TArray<FString>& TypeArguments, const TArray<UVaRestJsonValue*>& Arguments, const FString& Gas, const FString& GasBudget, const FRpcResultReceivedDelegate& OnResult);
