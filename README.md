@@ -59,7 +59,7 @@ Sign And Execute Transactions:
 ![Crypto Helper API Blueprints](/imgs/crypto_helpers_nodes.png "Crypto Helper API Blueprints")
 
 # Copy paste ready Blueprint Nodes
-[Copy paste ready Blueprint Nodes](https://blueprintue.com/blueprint/r_twkgi2/)
+[Copy paste ready Blueprint Nodes](https://blueprintue.com/blueprint/1adkdxay/)
 
 
 # Dependencies
